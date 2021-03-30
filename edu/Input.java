@@ -31,7 +31,7 @@ public class Input{
 	public static void main(String[] args) {
 
 		if(args.length > 0) {
-			Order example = new order(args[0] + args[1] + "," + args[2]);
+			Order example = new order(args[0] + args[1] + args[2]);
 		}
 	}  
 }
