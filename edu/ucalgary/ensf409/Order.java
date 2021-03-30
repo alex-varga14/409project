@@ -57,9 +57,7 @@ import java.util.regex.Pattern;
         System.out.println("Main in Order.java begins");
         inventory = new Inventory();
         inventory.initializeConnection();
-        inventory.selectType(this.furniture, this.type);
-        //System.out.println(inventory.selectDesiredType(this.furniture, this.type));
-        //inventory.selectDesiredType(this.furniture, this.type);
+        System.out.println(inventory.selectType(this.furniture, this.type));
     }
 
  }

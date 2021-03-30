@@ -63,24 +63,6 @@ public class Inventory {
 		return listofNames.toString();
 	}
 
-    public String selectDesiredType(String f, String t){
-        StringBuffer tmp = new StringBuffer();
-        try{
-            Statement myStmt = dbConnect.createStatement();
-            results = myStmt.executeQuery("SELECT Type FROM " + t);
-            while(results.next()){
-                if(results.getString("Type").toLowerCase().equals(f)){
-				    tmp.append(results.getString("ID"));
-				    tmp.append("\n");
-                }
-			}
-			myStmt.close();
-		} catch (SQLException i) {
-			i.printStackTrace();
-		}
-		return tmp.toString();
-    }
-
 
     public String selectType(String f, String t){
         System.out.println(t.toUpperCase().equals("CHAIR"));
@@ -101,8 +83,8 @@ public class Inventory {
         }
     }
 
+    /* Good 
     public String selectChair(String f){
-        System.out.println("CHAIR");
         StringBuffer tmp = new StringBuffer();
         try{
             Statement myStmt = dbConnect.createStatement();
@@ -117,9 +99,33 @@ public class Inventory {
 		} catch (SQLException i) {
 			i.printStackTrace();
 		}
-        System.out.println(tmp.toString());
+        //System.out.println(tmp.toString());
+        return tmp.toString();
+    } */
+    public String selectChair(String f){
+        StringBuffer tmp = new StringBuffer();
+        try{
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery("SELECT * FROM CHAIR");
+            while(results.next()){
+                if(results.getString("Type").toLowerCase().equals(f)){
+                    System.out.println("Chair with ID: "+ results.getString("ID") +" has " + results.getString("Legs") +
+                    " Legs, " + results.getString("Arms") + " Arms, " + results.getString("Seat") + " Seat, " + results.getString("Cushion") + 
+                    " Cushion with price " + results.getString("Price"));
+				    tmp.append(results.getString("ID"));
+				    tmp.append("\n");
+                }
+			}
+			myStmt.close();
+		} catch (SQLException i) {
+			i.printStackTrace();
+		}
+        //System.out.println(tmp.toString());
         return tmp.toString();
     }
+
+
+
     public String selectDesk(String f){
         System.out.println("DESK");
         StringBuffer tmp = new StringBuffer();
