@@ -40,6 +40,29 @@ public class Inventory {
 		}	
 	}
 
+    /*
+	This method uses the connection instance created and a statement to access the type of any table within the database.
+	The results from the table are put into a results instance and appended to a string buffer so that it can be returned.
+	*/
+	public String selectAllTypes(String table){
+		StringBuffer listofNames = new StringBuffer();
+		
+		try {
+			Statement myStmt = dbConnect.createStatement();
+			results = myStmt.executeQuery("SELECT * FROM " + table);
+			
+			while(results.next()){
+                System.out.println(results.next());
+				listofNames.append(results.getString("Type"));
+				listofNames.append("\n");
+			}
+			myStmt.close();
+		} catch (SQLException i) {
+			i.printStackTrace();
+		}
+		return listofNames.toString();
+	}
+
 
     
 }
