@@ -62,29 +62,24 @@ public class Inventory {
 		}
 		return listofNames.toString();
 	}
-    public String selectChairType(String chairType){
-		StringBuffer listofNames = new StringBuffer();
-		try {
-			Statement myStmt = dbConnect.createStatement();
-			results = myStmt.executeQuery("SELECT Type FROM CHAIR");
-			int count = 0;
-			while(results.next()){
-                if(results.getString("Type").toLowerCase().equals(chairType)){
-					System.out.println("The chair Type " + chairType + " exists.");
-                    listofNames.append(results.getString("Type"));
-				    listofNames.append("\n");
-                    count ++;
-				}
+
+    public String selectDesiredType(String f, String t){
+        StringBuffer tmp = new StringBuffer();
+        try{
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery("SELECT Type FROM " + t);
+            while(results.next()){
+                if(results.getString("Type").toLowerCase().equals(f)){
+				    tmp.append(results.getString("ID"));
+				    tmp.append("\n");
+                }
 			}
-            System.out.println("The options are :" + listofNames.toString());
-            System.out.println("\nand there are " + count + " matches for the type.");
-            
 			myStmt.close();
 		} catch (SQLException i) {
 			i.printStackTrace();
 		}
-		return listofNames.toString();
-	}
+		return tmp.toString();
+    }
 
 
     
