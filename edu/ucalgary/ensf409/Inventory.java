@@ -82,5 +82,56 @@ public class Inventory {
     }
 
 
-    
+    public String selectType(String f, String t){
+        System.out.println(t.toUpperCase().equals("CHAIR"));
+        if(t.toUpperCase().equals("CHAIR")){
+           return selectChair(f); 
+        }
+        else if (t.toUpperCase().equals("DESK")){
+            return selectDesk(f); 
+        }
+        else if (t.toUpperCase().equals("LAMP")){
+            return selectLamp(f); 
+        }
+        else if (t.toUpperCase().equals("FILING")){
+            return selectFiling(f);
+        }
+        else {
+            throw new IllegalArgumentException("IMPROPER FURNITURE TYPE PROVIDED");
+        }
+    }
+
+    public String selectChair(String f){
+        System.out.println("CHAIR");
+        StringBuffer tmp = new StringBuffer();
+        try{
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery("SELECT * FROM CHAIR");
+            while(results.next()){
+                if(results.getString("Type").toLowerCase().equals(f)){
+				    tmp.append(results.getString("ID"));
+				    tmp.append("\n");
+                }
+			}
+			myStmt.close();
+		} catch (SQLException i) {
+			i.printStackTrace();
+		}
+        System.out.println(tmp.toString());
+        return tmp.toString();
+    }
+    public String selectDesk(String f){
+        System.out.println("DESK");
+        StringBuffer tmp = new StringBuffer();
+        return tmp.toString();
+    }
+    public String selectLamp(String f){
+        System.out.println("LAMP");
+        StringBuffer tmp = new StringBuffer();
+        return tmp.toString();
+    }
+    public String selectFiling(String f){
+        StringBuffer tmp = new StringBuffer();
+        return tmp.toString();
+    }
 }
