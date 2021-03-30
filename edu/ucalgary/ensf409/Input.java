@@ -9,7 +9,13 @@ import java.io.*;
  * 
  * 
  */
+/*
+This class serves to receive command line input for an order request.
+Basic for now, implementation can be made better and more efficient possibly.
 
+
+*/
+//**** NOT FINISHED */
 public class Input{
     /* main()
 	   * Accept a command-line argument which specifies a user input for 1) furniture category, 2) its type,
@@ -23,8 +29,6 @@ public class Input{
 	   * If no argument is specified, it throws a custom exception, 
        * OrderArugmentNotProvidedException. Additional arguments are ignored.
 	  */
-
-    //**** NOT FINISHED */
 
 	public static void main(String[] args) {
 

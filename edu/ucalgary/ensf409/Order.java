@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
     private String furniture;
     private String type;
     private String amount;
+    private Inventory inventory;
     //private int amount;
     private static String REGEX 
 	= "([a-zA-z]{4,10}) ([a-zA-Z]{4,10}), ([0-9]{1,2})";
@@ -33,6 +34,7 @@ import java.util.regex.Pattern;
         this.amount = m.group(3);
 		//this.amount = Integer.parseInt(m.group(3));
 		System.out.println("The order is as follows: "+ this.furniture + " " + this.type +" " + this.amount);
+        main();
     }
 
     public void stripComma(String x){
@@ -41,10 +43,21 @@ import java.util.regex.Pattern;
         this.type = new String(tmp);
     }
 
+    public String getFurniture(){
+        return this.furniture;
+    }
+    public String getType(){
+        return this.type;
+    }
+    public String getAmount(){
+        return this.amount;
+    }
 
-
-
-
+    public void main(){
+        System.out.println("oolo");
+        inventory = new Inventory();
+        inventory.initializeConnection();
+    }
 
 
  }
