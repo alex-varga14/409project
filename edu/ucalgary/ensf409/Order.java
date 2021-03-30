@@ -11,12 +11,11 @@ import java.util.regex.Pattern;
  * 
  * 
  */
-
+//**** NOT FINISHED */
  public class Order{
 
     private String furniture;
     private String type;
-    //private String amount;
     private int amount;
     private Inventory inventory;
     private double cheapest;
@@ -33,7 +32,6 @@ import java.util.regex.Pattern;
         if(this.type.endsWith(",")){
             stripComma(this.type);
         }
-        //this.amount = m.group(3);
 		this.amount = Integer.parseInt(m.group(3));
 		System.out.println("The order is as follows: "+ this.furniture + " " + this.type +" " + this.amount);
         main();

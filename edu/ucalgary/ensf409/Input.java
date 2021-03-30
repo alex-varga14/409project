@@ -12,8 +12,6 @@ import java.io.*;
 /*
 This class serves to receive command line input for an order request.
 Basic for now, implementation can be made better and more efficient possibly.
-
-
 */
 //**** NOT FINISHED */
 public class Input {
