@@ -19,6 +19,8 @@ import java.util.regex.Pattern;
     //private String amount;
     private int amount;
     private Inventory inventory;
+    private double cheapest;
+
     private static String REGEX 
 	= "([a-zA-z]{4,10}) ([a-zA-Z]{4,10}), ([0-9]{1,2})";
     private static Pattern PATTERN= Pattern.compile(REGEX);
@@ -57,9 +59,9 @@ import java.util.regex.Pattern;
         System.out.println("Main in Order.java begins");
         inventory = new Inventory();
         inventory.initializeConnection();
-        System.out.println(inventory.selectAllTypes(this.type));
+        inventory.selectChairType(this.furniture);
+        //System.out.println(inventory.selectChairType(this.furniture));
         
     }
-
 
  }

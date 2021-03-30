@@ -3,7 +3,7 @@ package edu.ucalgary.ensf409;
 import java.sql.*;
 
 /* NOT FINISHED 
-Need to connect everyone to data base
+Need to connect everyone to the database and give access.
 */
 
 public class Inventory {
@@ -56,6 +56,29 @@ public class Inventory {
 				listofNames.append(results.getString("Type"));
 				listofNames.append("\n");
 			}
+			myStmt.close();
+		} catch (SQLException i) {
+			i.printStackTrace();
+		}
+		return listofNames.toString();
+	}
+    public String selectChairType(String chairType){
+		StringBuffer listofNames = new StringBuffer();
+		try {
+			Statement myStmt = dbConnect.createStatement();
+			results = myStmt.executeQuery("SELECT Type FROM CHAIR");
+			int count = 0;
+			while(results.next()){
+                if(results.getString("Type").toLowerCase().equals(chairType)){
+					System.out.println("The chair Type " + chairType + " exists.");
+                    listofNames.append(results.getString("Type"));
+				    listofNames.append("\n");
+                    count ++;
+				}
+			}
+            System.out.println("The options are :" + listofNames.toString());
+            System.out.println("\nand there are " + count + " matches for the type.");
+            
 			myStmt.close();
 		} catch (SQLException i) {
 			i.printStackTrace();
