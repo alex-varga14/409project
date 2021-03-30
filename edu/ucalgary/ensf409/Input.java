@@ -16,7 +16,7 @@ Basic for now, implementation can be made better and more efficient possibly.
 
 */
 //**** NOT FINISHED */
-public class Input{
+public class Input {
     /* main()
 	   * Accept a command-line argument which specifies a user input for 1) furniture category, 2) its type,
        * and 3) the number of items requested.
@@ -30,12 +30,14 @@ public class Input{
        * OrderArugmentNotProvidedException. Additional arguments are ignored.
 	  */
 
-	public static void main(String[] args) {
-
+	public static void main(String[] args) throws OrderArgumentNotProvidedException {
 		if(args.length > 0) {
             StringBuilder tmp = new StringBuilder();
             tmp.append(args[0].strip() + " " + args[1].strip() + " " + args[2].strip());
 			Order example = new Order(new String(tmp));
+		}
+        else {
+			throw new OrderArgumentNotProvidedException();
 		}
 	}  
 }
