@@ -24,14 +24,13 @@ public class Input{
 	  */
 
     //**** NOT FINISHED */
-    private static String REGEX 
-	= "([a-zA-z]{1,2})\\/([a-zA-Z]{3})\\/([0-9]{4})\\:([0-9]{1,2})\\:([0-9]{2})\\:([0-9]{2})\\]";
-    private static Pattern PATTERN= Pattern.compile(REGEX);
 
 	public static void main(String[] args) {
 
 		if(args.length > 0) {
-			Order example = new order(args[0] + args[1] + args[2]);
+            StringBuilder tmp = new StringBuilder();
+            tmp.append(args[0].strip() + " " + args[1].strip() + " " + args[2].strip());
+			Order example = new Order(new String(tmp));
 		}
 	}  
 }
