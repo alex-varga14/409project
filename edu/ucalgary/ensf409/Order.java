@@ -54,9 +54,9 @@ import java.util.regex.Pattern;
     }
 
     public void main(){
-        System.out.println("Main in Order.java begins");
         inventory = new Inventory();
         inventory.initializeConnection();
+        
         System.out.println(inventory.selectType(this.furniture, this.type));
     }
 

@@ -5,7 +5,7 @@ import java.sql.*;
  * ENSF409 FINAL PROJECT GROUP 40
  * Authors:
  * 
- * Version 1.0
+ * Version 1.02
  * 
  * 
  */
@@ -56,7 +56,7 @@ public class Inventory {
             System.out.println("The options for " + f + " " + t + " are:");
             while(results.next()){
                 if(results.getString("Type").toLowerCase().equals(f)){
-                    System.out.println(f + " " + t + " with ID: " + results.getString("ID"));
+                    System.out.println(f + " " + t + " with ID: " + results.getString("ID") + " are options for this order.");
                     selectComponents(t, results.getString("ID"));
                 }
 			}
@@ -121,5 +121,26 @@ public class Inventory {
         else { return "does not have";
         }
     }
+
+    /*
+	This method is to delete an object in the inventory.
+	*/
+	public void deleteInventoryItem(String type, String ID){
+		try {
+			String query = "DELETE FROM "+ type.toUpperCase() + " WHERE ID = '" + ID + "'";
+			PreparedStatement myStmt = dbConnect.prepareStatement(query);
+			
+			myStmt.setString(1, ID);
+			
+			int rowCount = myStmt.executeUpdate();
+			//System.out.println("Rows Affected: " + rowCount);
+			
+			myStmt.close();
+		} catch (SQLException a) {
+			a.printStackTrace();
+		}
+	}
+
+    
 
 }
