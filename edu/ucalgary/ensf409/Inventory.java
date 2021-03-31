@@ -1,8 +1,16 @@
 package edu.ucalgary.ensf409;
 
 import java.sql.*;
-
-/* NOT FINISHED 
+/**
+ * ENSF409 FINAL PROJECT GROUP 40
+ * Authors:
+ * 
+ * Version 1.0
+ * 
+ * 
+ */
+//**** NOT FINISHED */
+/* 
 Need to connect everyone to the database and give access.
 */
 
@@ -83,7 +91,7 @@ public class Inventory {
         }
     }
 
-    /* Good 
+    
     public String selectChair(String f){
         StringBuffer tmp = new StringBuffer();
         try{
@@ -91,29 +99,15 @@ public class Inventory {
             results = myStmt.executeQuery("SELECT * FROM CHAIR");
             while(results.next()){
                 if(results.getString("Type").toLowerCase().equals(f)){
-				    tmp.append(results.getString("ID"));
-				    tmp.append("\n");
-                }
-			}
-			myStmt.close();
-		} catch (SQLException i) {
-			i.printStackTrace();
-		}
-        //System.out.println(tmp.toString());
-        return tmp.toString();
-    } */
-    public String selectChair(String f){
-        StringBuffer tmp = new StringBuffer();
-        try{
-            Statement myStmt = dbConnect.createStatement();
-            results = myStmt.executeQuery("SELECT * FROM CHAIR");
-            while(results.next()){
-                if(results.getString("Type").toLowerCase().equals(f)){
-                    System.out.println("Chair with ID: "+ results.getString("ID") +" has " + results.getString("Legs") +
+                   /* System.out.println("Chair with ID: "+ results.getString("ID") +" has " + results.getString("Legs") +
                     " Legs, " + results.getString("Arms") + " Arms, " + results.getString("Seat") + " Seat, " + results.getString("Cushion") + 
                     " Cushion with price " + results.getString("Price"));
 				    tmp.append(results.getString("ID"));
-				    tmp.append("\n");
+				    tmp.append("\n"); 
+                    */
+
+                    selectComponents(results.getString("ID"));
+
                 }
 			}
 			myStmt.close();
@@ -122,6 +116,36 @@ public class Inventory {
 		}
         //System.out.println(tmp.toString());
         return tmp.toString();
+    }
+
+    public String selectComponents(String id){
+        StringBuffer tmp = new StringBuffer();
+        ResultSet rs;
+        try{
+            Statement stmt = dbConnect.createStatement();
+            String query;
+
+            query = "SELECT * FROM CHAIR WHERE ID = '" + id + "'";
+            rs = stmt.executeQuery(query);
+            while(rs.next()){
+                System.out.println("Chair " + id + ": " + englishConvert(rs.getString("Legs")) + " legs, "  +
+                englishConvert(rs.getString("Arms")) + " arms, " + englishConvert(rs.getString("Seat")) + " seat, and " 
+                + englishConvert(rs.getString("Cushion")) + " a cushion.");
+            }
+            rs.close();
+            stmt.close();
+		} catch (SQLException i) {
+			i.printStackTrace();
+		}
+        return tmp.toString();
+    }
+
+    public String englishConvert(String l){
+        if(l.equals("Y")){
+            return "has";
+        }
+        else { return "does not have";
+        }
     }
 
 
