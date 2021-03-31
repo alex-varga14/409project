@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
     private double cheapest;
 
     private static String REGEX 
-	= "([a-zA-z]{4,10}) ([a-zA-Z]{4,10}), ([0-9]{1,2})";
+	= "([a-zA-z]{4,12}) ([a-zA-Z]{4,12}), ([0-9]{1,2})";
     private static Pattern PATTERN= Pattern.compile(REGEX);
 
     public Order(String order){
