@@ -48,20 +48,16 @@ public class Inventory {
 		}	
 	}
 
-
-    
     public String selectType(String f, String t){
         StringBuffer tmp = new StringBuffer();
         try{
             Statement myStmt = dbConnect.createStatement();
             results = myStmt.executeQuery("SELECT * FROM " + t.toUpperCase() + " WHERE Type = '" + f +"'");
+            System.out.println("The options for " + f + " " + t + " are:");
             while(results.next()){
                 if(results.getString("Type").toLowerCase().equals(f)){
-
-                    System.out.println("The options for " + f + " " + t + " are:");
-                    System.out.println(results.getString("ID"));
-                   // selectComponents( t,results.getString("ID"));
-
+                    System.out.println(f + " " + t + " with ID: " + results.getString("ID"));
+                    selectComponents(t, results.getString("ID"));
                 }
 			}
 			myStmt.close();
@@ -72,20 +68,43 @@ public class Inventory {
         return tmp.toString();
     }
 
-    /*
-    public String selectComponents(String id){
+    public String selectComponents(String type, String id){
         StringBuffer tmp = new StringBuffer();
         ResultSet rs;
         try{
             Statement stmt = dbConnect.createStatement();
             String query;
 
-            query = "SELECT * FROM CHAIR WHERE ID = '" + id + "'";
+            query = "SELECT * FROM "+ type.toUpperCase() + " WHERE ID = '" + id + "'";
             rs = stmt.executeQuery(query);
-            while(rs.next()){
-                System.out.println("Chair " + id + ": " + englishConvert(rs.getString("Legs")) + " legs, "  +
-                englishConvert(rs.getString("Arms")) + " arms, " + englishConvert(rs.getString("Seat")) + " seat, and " 
-                + englishConvert(rs.getString("Cushion")) + " a cushion.");
+            if(type.toUpperCase().equals("CHAIR")){
+                while(rs.next()){
+                    System.out.println("Chair " + id + ": " + englishConvert(rs.getString("Legs")) + " legs, "  +
+                    englishConvert(rs.getString("Arms")) + " arms, " + englishConvert(rs.getString("Seat")) + " seat, and " 
+                    + englishConvert(rs.getString("Cushion")) + " a cushion.");
+                }
+            }
+            else if(type.toUpperCase().equals("DESK")){
+                while(rs.next()){
+                    System.out.println("Desk " + id + ": " + englishConvert(rs.getString("Legs")) + " legs, "  +
+                    englishConvert(rs.getString("Top")) + " top, and " + englishConvert(rs.getString("Drawer")) + ".");
+                }
+            }
+            else if(type.toUpperCase().equals("LAMP")){
+                while(rs.next()){
+                    System.out.println("Lamp " + id + ": " + englishConvert(rs.getString("Base")) + " base, and "  +
+                    englishConvert(rs.getString("Bulb")) + " bulb.");
+                }
+            }
+            else if(type.toUpperCase().equals("FILING")){
+                while(rs.next()){
+                    System.out.println("Filing " + id + ": " + englishConvert(rs.getString("Rails")) + " rails, "  +
+                    englishConvert(rs.getString("Drawers")) + " drawers, and " + englishConvert(rs.getString("Cabinet"))+ 
+                    " cabinet.");
+                }
+            }
+            else{
+                System.out.println("UNKNOWN.");
             }
             rs.close();
             stmt.close();
@@ -94,7 +113,6 @@ public class Inventory {
 		}
         return tmp.toString();
     }
-    */
 
     public String englishConvert(String l){
         if(l.equals("Y")){
