@@ -17,24 +17,64 @@ import java.util.regex.Pattern;
     private String furniture;
     private String type;
     private int amount;
-    private Inventory inventory;
-    private double cheapest;
+    
 
     private static String REGEX 
 	= "([a-zA-z]{4,12}) ([a-zA-Z]{4,12}), ([0-9]{1,2})";
     private static Pattern PATTERN= Pattern.compile(REGEX);
 
     public Order(String order){
+        System.out.println(order);
         Matcher m = PATTERN.matcher(order);
 		m.find();
-		this.furniture = m.group(1);
-		this.type = m.group(2);
+        this.type = m.group(1);
+		this.furniture = m.group(2);
         if(this.type.endsWith(",")){
             stripComma(this.type);
         }
 		this.amount = Integer.parseInt(m.group(3));
 		System.out.println("The order is as follows: "+ this.furniture + " " + this.type +" " + this.amount);
-        main();
+        
+    }
+
+    public boolean fillsOrder(ArrayList<Furniture> fList, ArrayList<Integer> c)
+    {
+        EnumMap <Furniture.Part, Integer> partsList = new EnumMap<Furniture.Part, Integer>(Furniture.Part.class);
+        for (Furniture.Part p : Furniture.Part.values())
+        {
+            partsList.put(p, 0);
+        }
+        for (int i : c)
+        {
+            for (Furniture.Part p : Furniture.Part.values())
+            {
+                if (fList.get(i).hasPart(p))
+                {
+                    partsList.put(p, partsList.get(p) + 1);
+                }
+            }
+        }
+        switch (furniture.toUpperCase())
+        {
+            case "CHAIR":
+                return  partsList.get(Furniture.Part.Legs) >= amount && 
+                        partsList.get(Furniture.Part.Arms) >= amount && 
+                        partsList.get(Furniture.Part.Seat) >= amount && 
+                        partsList.get(Furniture.Part.Cushion) >= amount;
+            case "DESK":
+                return  partsList.get(Furniture.Part.Legs) >= amount && 
+                        partsList.get(Furniture.Part.Top) >= amount && 
+                        partsList.get(Furniture.Part.Drawer) >= amount;
+            case "FILING":
+                return  partsList.get(Furniture.Part.Rails) >= amount && 
+                        partsList.get(Furniture.Part.Drawers) >= amount && 
+                        partsList.get(Furniture.Part.Cabinet) >= amount;
+            case "LAMP":
+                return  partsList.get(Furniture.Part.Base) >= amount && 
+                        partsList.get(Furniture.Part.Bulb) >= amount;
+                
+        }
+        return false;
     }
 
     public void stripComma(String x){
@@ -52,12 +92,4 @@ import java.util.regex.Pattern;
     public int getAmount(){
         return this.amount;
     }
-
-    public void main(){
-        inventory = new Inventory();
-        inventory.initializeConnection();
-        
-        System.out.println(inventory.selectType(this.furniture, this.type));
-    }
-
  }
