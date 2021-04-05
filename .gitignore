@@ -1,0 +1,6 @@
+
+*.class
+*.class
+edu/ucalgary/ensf409/Input.class
+edu/ucalgary/ensf409/Inventory.class
+edu/ucalgary/ensf409/Order.class
