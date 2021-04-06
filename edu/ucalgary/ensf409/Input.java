@@ -15,6 +15,20 @@ Basic for now, implementation can be made better and more efficient possibly.
 */
 //**** NOT FINISHED */
 public class Input {
+    private String in; // Create a string that stores the user input
+    Scanner input = new Scanner(System.in); //  Create a Scanner Object 
+
+
+    public String userin(){
+    System.out.println("Welcome to the University of Calgary Supply Chain Management (SCM) Furniture Recycling Program\nPlease choose a furniture category:");
+    in = input.nextLine();
+    System.out.println("Now choose a furniture type");
+    in += " " + input.nextLine();
+    System.out.println("Finally, please request the amount of the item you want");
+    in += ", " + input.nextLine();
+
+    return in;
+    }
     /* main()
 	   * Accept a command-line argument which specifies a user input for 1) furniture category, 2) its type,
        * and 3) the number of items requested.
