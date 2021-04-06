@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
     private static Pattern PATTERN= Pattern.compile(REGEX);
 
     public Order(String order){
-        System.out.println(order);
+        //System.out.println(order);
         Matcher m = PATTERN.matcher(order);
 		m.find();
         this.type = m.group(1);
@@ -33,7 +33,6 @@ import java.util.regex.Pattern;
         }
 		this.amount = Integer.parseInt(m.group(3));
 		System.out.println("The order is as follows: "+ this.furniture + " " + this.type +" " + this.amount);
-        
     }
 
     /**

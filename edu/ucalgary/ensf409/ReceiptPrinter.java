@@ -20,7 +20,7 @@ This class creates an order receipt in an output file
 public class ReceiptPrinter{
 	private String origRequest;
 	private ArrayList<Furniture> items;
-	private float price;
+	private int price;
 	private String receipt = "";
 	private String file = "orderForm.txt";
 	
@@ -30,7 +30,7 @@ public class ReceiptPrinter{
 	public ReceiptPrinter(String origRequest, ArrayList<Furniture> items, float price){
 		this.origRequest = origRequest;
 		this.items = items;
-		this.price = price;
+		this.price = Math.round(price);
 		formatReceipt();
 		writeToFile(receipt);
 	}
@@ -52,7 +52,7 @@ public class ReceiptPrinter{
 	/**
 	Getter for cost
 	*/
-	public float getPrice(){
+	public int getPrice(){
 		return this.price;
 	}
 	
@@ -95,11 +95,11 @@ public class ReceiptPrinter{
 					+"Contact: \n"
 					+"Date: \n"
 					+"\n"
-					+"Original Request: \n" +origRequest
+					+"Original Request: " +origRequest
 					+"\n"
 					+"Items Ordered\n";
 		for (int i = 0; i < items.size(); i++){
-			receipt += items.get(i).getID() +"\n";
+			receipt += "ID: " + items.get(i).getID() +"\n";
 		}
 		receipt += "Total Price: $" +price;
 	}

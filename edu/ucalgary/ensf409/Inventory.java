@@ -197,7 +197,7 @@ public class Inventory {
             System.out.println("The options for " + type + " " + furniture + " are:");
             while(results.next()){
                 output.add(new Furniture(furniture, type, results));
-                System.out.println(results.toString());
+               // System.out.println(results.toString());
                 selectComponents(furniture, results.getString("ID"));
 			}
 			myStmt.close();
