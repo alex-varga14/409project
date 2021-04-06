@@ -1,12 +1,10 @@
 package edu.ucalgary.ensf409;
-
 import java.sql.*;
 import java.util.ArrayList;
 /**
- * ENSF409 FINAL PROJECT GROUP 40
- * Authors:
- * 
- * Version 1.02
+ * @ ENSF409 FINAL PROJECT GROUP 40
+ * @authors: Alex Varga and Ben Krett
+ * @version 1.2
  * 
  * 
  */
@@ -25,8 +23,8 @@ public class Inventory {
 
     public Inventory(){
     this.DBURL = "jdbc:mysql://localhost/inventory";
-    this.USERNAME = "ben";
-    this.PASSWORD = "bbbb";
+    this.USERNAME = "alexcode";
+    this.PASSWORD = "glorycode";
     }
     public String getDburl(){
 		return this.DBURL;
@@ -38,9 +36,9 @@ public class Inventory {
 		return this.PASSWORD;
 	}
 
-    /**
-     * Initializes connection to database
-     */
+    /*
+	This method create a conneciton between the database and a Connection Object so that it can be accessed.
+	*/
 	public void initializeConnection(){
 		try{
 			dbConnect = DriverManager.getConnection(this.DBURL, this.USERNAME, this.PASSWORD);
@@ -49,7 +47,7 @@ public class Inventory {
 		}	
 	}
 
-    /**
+     /**
      * Takes an order, and attempts to execute it. If the inventory exists to fill the order, the cheapest combination is found,
      * a receipt is printed and the purshased furniture is removed from inventory. If not, the user is informed.
      * displayed, and
@@ -72,6 +70,8 @@ public class Inventory {
                 price += f.getPrice();
             }   
             System.out.println(String.format("Total Price: %f", price));
+            ReceiptPrinter newReceipt = new ReceiptPrinter(
+                o.getType() + " " + o.getFurniture() + " " + String.valueOf(o.getAmount()), orderList, price);
         }
         return "";
 
@@ -210,25 +210,25 @@ public class Inventory {
 
     }
 
-    public String selectType(String type, String furniture){
-        StringBuffer tmp = new StringBuffer();
-        try{
-            Statement myStmt = dbConnect.createStatement();
-            results = myStmt.executeQuery("SELECT * FROM " + furniture + " WHERE Type = '" + type +"'");
-            System.out.println("The options for " + type + " " + furniture + " are:");
-            while(results.next()){
-                if(results.getString("Type").toLowerCase().equals(type)){
-                    System.out.println(type + " " + furniture + " with ID: " + results.getString("ID") + " are options for this order.");
-                    selectComponents(furniture, results.getString("ID"));
-                }
-			}
-			myStmt.close();
-		} catch (SQLException i) {
-			i.printStackTrace();
-		}
-        //System.out.println(tmp.toString());
-        return tmp.toString();
-    }
+    // public String selectType(String f, String t){
+    //     StringBuffer tmp = new StringBuffer();
+    //     try{
+    //         Statement myStmt = dbConnect.createStatement();
+    //         results = myStmt.executeQuery("SELECT * FROM " + t.toUpperCase() + " WHERE Type = '" + f +"'");
+    //         System.out.println("The options for " + f + " " + t + " are:");
+    //         while(results.next()){
+    //             if(results.getString("Type").toLowerCase().equals(f)){
+    //                 System.out.println(f + " " + t + " with ID: " + results.getString("ID") + " are options for this order.");
+    //                 selectComponents(t, results.getString("ID"));
+    //             }
+	// 		}
+	// 		myStmt.close();
+	// 	} catch (SQLException i) {
+	// 		i.printStackTrace();
+	// 	}
+    //     //System.out.println(tmp.toString());
+    //     return tmp.toString();
+    // }
 
     public String selectComponents(String type, String id){
         StringBuffer tmp = new StringBuffer();

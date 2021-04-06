@@ -2,10 +2,9 @@ package edu.ucalgary.ensf409;
 import java.util.*;
 import java.io.*;
 /**
- * ENSF409 FINAL PROJECT GROUP 40
- * Authors:
- * 
- * Version 1.0
+ * @ ENSF409 FINAL PROJECT GROUP 40
+ * @authors: Alex Varga and Ben Krett
+ * @version 1.2
  * 
  * 
  */

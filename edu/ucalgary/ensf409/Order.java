@@ -4,10 +4,9 @@ import java.io.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 /**
- * ENSF409 FINAL PROJECT GROUP 40
- * Authors:
- * 
- * Version 1.0
+ * @ ENSF409 FINAL PROJECT GROUP 40
+ * @authors: Alex Varga and Ben Krett
+ * @version 1.2
  * 
  * 
  */

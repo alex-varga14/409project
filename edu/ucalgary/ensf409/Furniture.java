@@ -3,7 +3,6 @@ import java.util.*;
 import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-<<<<<<< HEAD
 /**
  * @ ENSF409 FINAL PROJECT GROUP 40
  * @author: Ben Krett
@@ -16,14 +15,10 @@ This Furniture class manages all the Furniture types from inventory.sql and dete
 which ID's have corresponding parts for the order.
 
 */
-public class Furniture
-{
-=======
 
 public class Furniture
 {
 
->>>>>>> c53a10be463d5f6907e13ebd9ff09058d8732a24
     public enum Part
     {
         Legs, Arms, Seat, Cushion, Top, Drawer, Rails, Drawers, Cabinet, Base, Bulb
@@ -93,10 +88,6 @@ public class Furniture
                 partsList.put(Part.Legs   , r.getString("Legs").equals("Y"));
                 partsList.put(Part.Top    , r.getString("Top").equals("Y"));
                 partsList.put(Part.Drawer , r.getString("Drawer").equals("Y"));
-<<<<<<< HEAD
-=======
-               
->>>>>>> c53a10be463d5f6907e13ebd9ff09058d8732a24
                 break;
             case "FILING":
                 partsList.put(Part.Rails   , r.getString("Rails").equals("Y"));
@@ -110,10 +101,5 @@ public class Furniture
         }
     }
 
-<<<<<<< HEAD
-=======
-    
 
-
->>>>>>> c53a10be463d5f6907e13ebd9ff09058d8732a24
 }
