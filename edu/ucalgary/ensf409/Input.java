@@ -2,10 +2,9 @@ package edu.ucalgary.ensf409;
 import java.util.*;
 import java.io.*;
 /**
- * ENSF409 FINAL PROJECT GROUP 40
- * Authors:
- * 
- * Version 1.0
+ * @ ENSF409 FINAL PROJECT GROUP 40
+ * @authors: Alex Varga and Ben Krett
+ * @version 1.2
  * 
  * 
  */
@@ -28,14 +27,22 @@ public class Input {
        * OrderArugmentNotProvidedException. Additional arguments are ignored.
 	  */
 
-	public static void main(String[] args) throws OrderArgumentNotProvidedException {
+      public static void main(String[] args) throws OrderArgumentNotProvidedException {
 		if(args.length > 0) {
+       
             StringBuilder tmp = new StringBuilder();
             tmp.append(args[0].strip() + " " + args[1].strip() + " " + args[2].strip());
+            Inventory inventory = new Inventory();
+            inventory.initializeConnection();
 			Order example = new Order(new String(tmp));
+            
+            String result = inventory.executeOrder(example);
+            //System.out.println(result);
 		}
         else {
 			throw new OrderArgumentNotProvidedException();
 		}
 	}  
+
+    
 }
