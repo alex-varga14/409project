@@ -38,9 +38,9 @@ public class Inventory {
 		return this.PASSWORD;
 	}
 
-    /*
-	This method create a conneciton between the database and a Connection Object so that it can be accessed.
-	*/
+    /**
+     * Initializes connection to database
+     */
 	public void initializeConnection(){
 		try{
 			dbConnect = DriverManager.getConnection(this.DBURL, this.USERNAME, this.PASSWORD);
@@ -49,10 +49,17 @@ public class Inventory {
 		}	
 	}
 
+    /**
+     * Takes an order, and attempts to execute it. If the inventory exists to fill the order, the cheapest combination is found,
+     * a receipt is printed and the purshased furniture is removed from inventory. If not, the user is informed.
+     * displayed, and
+     * @param o Order to be fufilled.
+     * @return $$$NOT SURE WHAT THIS SHOULD BE RETURNING BOOL OR NULL?
+     */
     public String executeOrder (Order o)
     {
         ArrayList<Furniture> orderList = findCheapestCombo(o);
-        if (orderList.size() == 0)
+        if (orderList.size() == 0) // empty list indicates no combo was found
         {
             System.out.println("Order could not be filled");
         }
@@ -70,51 +77,72 @@ public class Inventory {
 
     }
 
+    /**
+     * Given an order, returns an ArrayList of the cheapest combination of furniture that fills the order.
+     * If the order cannot be filled, returns an empty list
+     * @param o
+     * @return
+     */
     private ArrayList<Furniture> findCheapestCombo (Order o)
     {
-        ArrayList<Furniture> availableFurniture = getAvailableFurniture(o.getType(), o.getFurniture());
+        ArrayList<Furniture> availableFurniture = getAvailableFurniture(o.getType(), o.getFurniture()); // get list of all furniture matching order
         ArrayList<Integer> cheapestCombo = recursiveFindCheapest(availableFurniture, new ArrayList<Integer>(), o);
+
         ArrayList<Furniture> orderList = new ArrayList<Furniture>();
-        if (o.fillsOrder(availableFurniture, cheapestCombo)) // if not valid, will return empty list
+
+        if (o.fillsOrder(availableFurniture, cheapestCombo)) // if order could not be filled, will return empty list
         {
             for (int i : cheapestCombo)
             {
-                orderList.add(availableFurniture.get(i));
+                orderList.add(availableFurniture.get(i)); // fills arraylist of furniture with indices found to be cheapest
             }
         }
         
         return orderList;
     }
 
+    /**
+     * recursive algorithm to return a list of indices of the cheapest combination of furniture to fufill a given order.
+     * @param f list of furnitures available to fill the order
+     * @param currentlyUsed indices that are currently being tested. When this function is called should be empty list, will be
+     * filled out recursively
+     * @param o order to be filled
+     * @return ArrayList of indices indicating which items in the available furniture list make the cheapest combo
+     */
+
     private ArrayList<Integer> recursiveFindCheapest (ArrayList<Furniture> f, ArrayList<Integer> currentlyUsed, Order o)
     {
        
         if (o.fillsOrder(f, currentlyUsed))
         {
-            return deepCopyArrayList(currentlyUsed);
+            return deepCopyArrayList(currentlyUsed); 
+            // base case, if all parts needed are already contained in list, no reason to add more
         }
         
         ArrayList<Integer> cheapestSolution = deepCopyArrayList(currentlyUsed);
         float cheapestPrice = Float.MAX_VALUE;
+        // 
 
         for (int i = 0; i < f.size(); i++)
         {
             if (currentlyUsed.contains(i))
             {
-                continue;
+                continue; // ensure indices aren't inserted twice
             }
             else
             {
-                
-                currentlyUsed.add(i);
+                currentlyUsed.add(i); // pushes new furniture, test if new combo is cheaper then previously used combos
+
                 ArrayList<Integer> newSolution = recursiveFindCheapest(f, currentlyUsed, o);
                 float newPrice = getFurnitureListPrice(f, newSolution);
+
                 if (getFurnitureListPrice(f, newSolution) < cheapestPrice)
                 {
+                    // update cheapest with new cheaper solution found
                     cheapestPrice = newPrice;
                     cheapestSolution = newSolution;
                 }
-                currentlyUsed.remove(currentlyUsed.size() - 1);
+                currentlyUsed.remove(currentlyUsed.size() - 1); // pops furniture for next iteration
             }
 
         }
@@ -133,6 +161,12 @@ public class Inventory {
         return b;
     }
 
+    /**
+     * Given a list of furniture, and a list of indices, sum price of furniture at given indices
+     * @param f list of furniture
+     * @param c indices of furniture to be summed
+     * @return sum price of furniture at indices 
+     */
     private float getFurnitureListPrice (ArrayList<Furniture> f, ArrayList<Integer> c)
     {
         float o = 0;
@@ -145,32 +179,14 @@ public class Inventory {
 
     }
 
-    // public ArrayList<Furniture> executeOrder (Order o)
-    // {
-
-    //     switch (o.getFurniture().toUpperCase())
-    //     {
-    //         case "CHAIR":
-
-    //             break;
-    //         case "DESK":
-
-    //             break;
-    //         case "FILING":
-                    
-    //             break;
-    //         case "LAMP":
-
-    //             break;
-    //     }
-    //     ArrayList<Furniture> availableFurniture = getAvailableFurniture(o.getType(), o.getFurniture());
-    //     float min_price;
-    //     for (int i = 0; i < availableFurniture.length; i++)
-    //     {
-            
-    //     }
-    //     return "";
-    // }
+ 
+    /**
+     * Accesses database to return a list of all furniture from inventory that match the specified type
+     * and furniture style
+     * @param type type of furniture to select
+     * @param furniture style of furniture to select
+     * @return ArrayList of furniture that match type and style
+     */
 
     public ArrayList<Furniture> getAvailableFurniture (String type, String furniture)
     {

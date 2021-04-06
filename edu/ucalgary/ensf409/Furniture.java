@@ -6,28 +6,30 @@ import java.sql.SQLException;
 
 public class Furniture
 {
+
     public enum Part
     {
         Legs, Arms, Seat, Cushion, Top, Drawer, Rails, Drawers, Cabinet, Base, Bulb
+        // All existing furniture parts
     }
+
     public String furniture;
     public String type;
 
     private EnumMap <Part, Boolean> partsList = new EnumMap<Part, Boolean>(Part.class);
-
+    // maps a part to a boolean value, so each part is either true (on furniture) or false
+ 
     private String ID;
 
     private float Price;
 
     private String ManuID;
-    private String Name;
-    private String Phone;
-    private String Province;
 
     public boolean hasPart (Part p)
     {
         return partsList.get(p);
     }
+    
     public String getID() {
         return ID;
     }
@@ -40,6 +42,14 @@ public class Furniture
         return ManuID;
     }
 
+    /**
+     * Creates a furniture object from a furniture style, type, and database row.
+     * @param furniture furniture style
+     * @param type furniture type
+     * @param r database row
+     * @throws SQLException
+     */
+
     public Furniture (String furniture, String type, ResultSet r) throws SQLException
     {
         this.furniture = furniture;
@@ -51,9 +61,11 @@ public class Furniture
 
         for (Part p :Part.values())
         {
-            partsList.put(p, false);
+            partsList.put(p, false); // by default, furniture object has all parts set to falst
         }
+        
         switch(furniture.toUpperCase()){
+            // for each style of furniture, go through each of it's part's database entrys and save which parts exist
             case "CHAIR":
                 partsList.put(Part.Legs   , r.getString("Legs").equals("Y"));
                 partsList.put(Part.Arms   , r.getString("Arms").equals("Y"));
