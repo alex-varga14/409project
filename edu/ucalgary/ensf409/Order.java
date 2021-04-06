@@ -37,25 +37,37 @@ import java.util.regex.Pattern;
         
     }
 
+    /**
+     * Checks if the furnitures, indicated by the indices given, fufill the order.
+     * @param fList list of furnitures.
+     * @param c list of indices of the list of furnitures, representing a potential way to fill the order
+     * @return
+     */
     public boolean fillsOrder(ArrayList<Furniture> fList, ArrayList<Integer> c)
     {
         EnumMap <Furniture.Part, Integer> partsList = new EnumMap<Furniture.Part, Integer>(Furniture.Part.class);
+        // maps each possible Part of furniture to an integer, to count how many of each parts exist in the furniture
         for (Furniture.Part p : Furniture.Part.values())
         {
             partsList.put(p, 0);
+            // count of each part starts at 0
         }
         for (int i : c)
         {
             for (Furniture.Part p : Furniture.Part.values())
+            // iterate through all existing furniture parts
             {
                 if (fList.get(i).hasPart(p))
                 {
-                    partsList.put(p, partsList.get(p) + 1);
+                    partsList.put(p, partsList.get(p) + 1); 
+                    // if part exists on a piece of furniture, increment total count for that part
                 }
             }
         }
         switch (furniture.toUpperCase())
         {
+            // for each style of furniture, ensure total of each kind of part needed that exists in the order
+            // is larger then the total amount specified by the order.
             case "CHAIR":
                 return  partsList.get(Furniture.Part.Legs) >= amount && 
                         partsList.get(Furniture.Part.Arms) >= amount && 
