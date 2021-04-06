@@ -1,4 +1,5 @@
 package edu.ucalgary.ensf409;
+import java.util.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,7 +20,7 @@ This class creates an order receipt in an output file
 
 public class ReceiptPrinter{
 	private String origRequest;
-	private Furniture[] items;
+	private ArrayList<Furniture> items;
 	private int price;
 	private String receipt = "";
 	private String file = "orderForm.txt";
@@ -27,7 +28,7 @@ public class ReceiptPrinter{
 	/**
 	Constructor
 	*/
-	public ReceiptPrinter(String origRequest, Furniture[] items, int price){
+	public ReceiptPrinter(String origRequest, ArrayList<Furniture> items, int price){
 		this.origRequest = origRequest;
 		this.items = items;
 		this.price = price;
@@ -45,7 +46,7 @@ public class ReceiptPrinter{
 	/**
 	Getter for items
 	*/
-	public Furniture[] getItems(){
+	public ArrayList<Furniture> getItems(){
 		return this.items;
 	}
 	
@@ -95,13 +96,13 @@ public class ReceiptPrinter{
 					+"Contact: \n"
 					+"Date: \n"
 					+"\n"
-					+"Original Request: \n" //+origRequest
+					+"Original Request: \n" +origRequest
 					+"\n"
 					+"Items Ordered\n";
-		//for (int i = 0; i < items.length; i++){
-		//	receipt += items[i].getID() +"\n";
-		//}
-		receipt += "Total Price: $"; //+price;
+		for (int i = 0; i < items.size(); i++){
+			receipt += items.get(i).getID() +"\n";
+		}
+		receipt += "Total Price: $" +price;
 	}
 	
 }
