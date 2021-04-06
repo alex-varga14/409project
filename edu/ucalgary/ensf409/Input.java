@@ -35,7 +35,6 @@ public class Input {
             Inventory inventory = new Inventory();
             inventory.initializeConnection();
 			Order example = new Order(new String(tmp));
-            
             String result = inventory.executeOrder(example);
             System.out.println(result);
 		}

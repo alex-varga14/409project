@@ -95,13 +95,14 @@ public class ReceiptPrinter{
 					+"Contact: \n"
 					+"Date: \n"
 					+"\n"
-					+"Original Request: " +origRequest
-					+"\n"
+					+"Original Request: " + origRequest
+					+"\n\n"
 					+"Items Ordered\n";
 		for (int i = 0; i < items.size(); i++){
 			receipt += "ID: " + items.get(i).getID() +"\n";
 		}
-		receipt += "Total Price: $" +price;
+		
+		receipt += "\n" + "Total Price: $" +price;
 	}
 	
 }

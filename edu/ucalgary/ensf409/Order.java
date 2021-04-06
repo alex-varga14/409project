@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
     private String type;
     private int amount;
     
-
+    
     private static String REGEX 
 	= "([a-zA-z]{4,12}) ([a-zA-Z]{4,12}), ([0-9]{1,2})";
     private static Pattern PATTERN= Pattern.compile(REGEX);

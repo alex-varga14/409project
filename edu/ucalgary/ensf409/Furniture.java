@@ -53,6 +53,7 @@ public class Furniture
     public String getManuID() {
         return ManuID;
     }
+    
 
     /**
      * Creates a furniture object from a furniture style, type, and database row.

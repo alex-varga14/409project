@@ -67,11 +67,12 @@ public class Inventory {
             for (Furniture f : orderList)
             {
                 System.out.println(String.format("ID: %s", f.getID()));
+                //deleteInventoryItem(o.getType(), f.getID());
                 price += f.getPrice();
             }   
             System.out.println(String.format("Total Price: %f", price));
             ReceiptPrinter newReceipt = new ReceiptPrinter(
-                o.getType() + " " + o.getFurniture() + " " + String.valueOf(o.getAmount()), orderList, price);
+                o.getType() + " " + o.getFurniture() + ", " + String.valueOf(o.getAmount()), orderList, price);
         }
         return "";
 
@@ -230,6 +231,7 @@ public class Inventory {
     //     return tmp.toString();
     // }
 
+     
     public String selectComponents(String type, String id){
         StringBuffer tmp = new StringBuffer();
         ResultSet rs;
