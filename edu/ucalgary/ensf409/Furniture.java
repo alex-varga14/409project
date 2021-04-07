@@ -7,13 +7,12 @@ import java.sql.SQLException;
  * @ ENSF409 FINAL PROJECT GROUP 40
  * @author: Ben Krett
  * @version 1.0
- * 
+ * @since 1.0
  * 
  */
-/** 
+/** Furniture Class Documentation:
 This Furniture class manages all the Furniture types from inventory.sql and determines
-which ID's have corresponding parts for the order.
-
+which ID's have corresponding parts to fulfill the order.
 */
 
 public class Furniture

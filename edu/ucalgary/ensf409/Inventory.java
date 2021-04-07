@@ -5,12 +5,13 @@ import java.util.ArrayList;
  * @ ENSF409 FINAL PROJECT GROUP 40
  * @authors: Alex Varga and Ben Krett
  * @version 1.2
- * 
+ * @since 1.0
  * 
  */
 //**** NOT FINISHED */
-/* 
-Need to connect everyone to the database and give access.
+/* Inventory Class Documentation:
+This class serves to connect the database and check if an order can be filled and if so,
+provide the cheapest option for the desired furniture type.
 */
 
 public class Inventory {
@@ -56,10 +57,11 @@ public class Inventory {
      */
     public String executeOrder (Order o)
     {
+        String mes = "";
         ArrayList<Furniture> orderList = findCheapestCombo(o);
         if (orderList.size() == 0) // empty list indicates no combo was found
         {
-            System.out.println("Order could not be filled");
+           // mes = showManu(o.getFurniture());
         }
         else
         {
@@ -67,15 +69,38 @@ public class Inventory {
             for (Furniture f : orderList)
             {
                 System.out.println(String.format("ID: %s", f.getID()));
-                //deleteInventoryItem(o.getType(), f.getID());
+                deleteInventoryItem(o.getFurniture(), f.getID());
                 price += f.getPrice();
             }   
             System.out.println(String.format("Total Price: %f", price));
             ReceiptPrinter newReceipt = new ReceiptPrinter(
                 o.getType() + " " + o.getFurniture() + ", " + String.valueOf(o.getAmount()), orderList, price);
         }
-        return "";
+        return mes;
 
+    }
+    public String showManu(String f){
+		StringBuffer listofManus = new StringBuffer();
+		try {
+			Statement myStmt = dbConnect.createStatement();
+			results = myStmt.executeQuery("SELECT * FROM " + f.toUpperCase());
+            listofManus.append("Order cannot be fulfilled based on current inventory. Suggested manufacturers include: \n");
+			while(results.next()){
+				listofManus.append(results.getString("ManuID"));
+				listofManus.append("\n");
+			}
+			myStmt.close();
+		} catch (SQLException i) {
+			i.printStackTrace();
+		}
+		return listofManus.toString();
+	}
+    public String manuName(String manuID){
+        try {
+            	String query = "SELECT * FROM Manufacturer WHERE ManuID = ?";
+            	PreparedStatement myStmt = dbConnect.prepareStatement(query);
+                    
+            	myStmt.setString(1, manuID);
     }
 
     /**
@@ -289,22 +314,20 @@ public class Inventory {
     /*
 	This method is to delete an object in the inventory.
 	*/
-	public void deleteInventoryItem(String type, String ID){
+	public void deleteInventoryItem(String furniture, String ID){
 		try {
-			String query = "DELETE FROM "+ type.toUpperCase() + " WHERE ID = '" + ID + "'";
+			String query = "DELETE FROM "+ furniture.toUpperCase() + " WHERE ID = ?";
 			PreparedStatement myStmt = dbConnect.prepareStatement(query);
 			
 			myStmt.setString(1, ID);
-			
 			int rowCount = myStmt.executeUpdate();
-			//System.out.println("Rows Affected: " + rowCount);
-			
+			System.out.println("Rows Affected: " + rowCount);
+			System.out.println("ID: "+ ID + " deleted.");
 			myStmt.close();
 		} catch (SQLException a) {
 			a.printStackTrace();
 		}
 	}
-
     
 
 }

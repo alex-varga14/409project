@@ -7,16 +7,19 @@ import java.util.regex.Pattern;
  * @ ENSF409 FINAL PROJECT GROUP 40
  * @authors: Alex Varga and Ben Krett
  * @version 1.2
- * 
+ * @since 1.0
  * 
  */
 //**** NOT FINISHED */
+/* Order Class Documentation:
+This class instiantiates an Order instance and works with the Inventory and Furniture classes to determine
+if an order can be fulfilled. 
+*/
  public class Order{
 
     private String furniture;
     private String type;
     private int amount;
-    
     
     private static String REGEX 
 	= "([a-zA-z]{4,12}) ([a-zA-Z]{4,12}), ([0-9]{1,2})";

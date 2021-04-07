@@ -1,14 +1,17 @@
 package edu.ucalgary.ensf409;
 import java.util.*;
 import java.io.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 /**
  * @ ENSF409 FINAL PROJECT GROUP 40
  * @authors: Alex Varga and Ben Krett
  * @version 1.2
- * 
+ * @since 1.0
  * 
  */
-/*
+/* Input Class Documentation:
 This class serves to receive command line input for an order request.
 Basic for now, implementation can be made better and more efficient possibly.
 */
@@ -27,9 +30,8 @@ public class Input {
        * OrderArugmentNotProvidedException. Additional arguments are ignored.
 	  */
 
-	public static void main(String[] args) throws OrderArgumentNotProvidedException {
+	public static void main(String[] args) throws OrderArgumentInvalidException {
 		if(args.length > 0) {
-       
             StringBuilder tmp = new StringBuilder();
             tmp.append(args[0].strip() + " " + args[1].strip() + " " + args[2].strip());
             Inventory inventory = new Inventory();
@@ -37,9 +39,10 @@ public class Input {
 			Order example = new Order(new String(tmp));
             String result = inventory.executeOrder(example);
             System.out.println(result);
+            
 		}
         else {
-			throw new OrderArgumentNotProvidedException();
+			throw new OrderArgumentInvalidException();
 		}
 	}  
 }
