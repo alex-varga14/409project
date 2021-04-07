@@ -1,7 +1,9 @@
 package edu.ucalgary.ensf409;
-import java.util.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import org.junit.*;
+import java.io.*;
+import java.util.*;
+
 /**
  * @ ENSF409 FINAL PROJECT GROUP 40
  * @authors: Dominic Vandekerkhove
