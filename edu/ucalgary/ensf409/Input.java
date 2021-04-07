@@ -5,11 +5,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;  
 /**
- * ENSF409 FINAL PROJECT GROUP 40
- * Authors:
- * 
- * Version 1.0
- * 
+ * @ ENSF409 FINAL PROJECT GROUP 40
+ * @authors: Kenny Jeon, Alex Varga and Ben Krett
+ * @version 1.2
+ * @since 1.0
  * 
  */
 /*
@@ -107,7 +106,7 @@ public class Input extends JFrame implements ActionListener {
        * OrderArugmentNotProvidedException. Additional arguments are ignored.
 	  */
 
-	public static void main(String[] args) throws OrderArgumentNotProvidedException {
+	public static void main(String[] args) throws OrderArgumentInvalidException {
            Input input = new Input(); 
 
            // StringBuilder tmp = new StringBuilder();
@@ -116,8 +115,8 @@ public class Input extends JFrame implements ActionListener {
             inventory.initializeConnection();
 			Order example = new Order(input.getInput());
 
-           if (input.getInput == null) {
-                throw new OrderArgumentNotProvidedException();
+           if (input.getInput() == null) {
+                throw new OrderArgumentInvalidException();
             }
             
             String result = inventory.executeOrder(example);
