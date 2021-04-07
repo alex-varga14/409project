@@ -1,5 +1,6 @@
 package edu.ucalgary.ensf409;
 import java.sql.*;
+import java.util.*;
 import java.util.ArrayList;
 /**
  * @ ENSF409 FINAL PROJECT GROUP 40
@@ -57,11 +58,12 @@ public class Inventory {
      */
     public String executeOrder (Order o)
     {
-        String mes = "";
+        StringBuilder mes = new StringBuilder();
         ArrayList<Furniture> orderList = findCheapestCombo(o);
         if (orderList.size() == 0) // empty list indicates no combo was found
         {
-           // mes = showManu(o.getFurniture());
+           mes.append(showManu(o));
+           System.out.println(mes);
         }
         else
         {
@@ -76,31 +78,98 @@ public class Inventory {
             ReceiptPrinter newReceipt = new ReceiptPrinter(
                 o.getType() + " " + o.getFurniture() + ", " + String.valueOf(o.getAmount()), orderList, price);
         }
-        return mes;
+        return new String(mes);
 
     }
-    public String showManu(String f){
+
+    public String showManu(Order p){
+        ArrayList<String> tmp = new ArrayList<String>();
 		StringBuffer listofManus = new StringBuffer();
 		try {
 			Statement myStmt = dbConnect.createStatement();
-			results = myStmt.executeQuery("SELECT * FROM " + f.toUpperCase());
+			results = myStmt.executeQuery("SELECT * FROM " + p.getFurniture().toUpperCase());
             listofManus.append("Order cannot be fulfilled based on current inventory. Suggested manufacturers include: \n");
 			while(results.next()){
-				listofManus.append(results.getString("ManuID"));
-				listofManus.append("\n");
+                tmp.add(results.getString("ManuID"));
 			}
 			myStmt.close();
 		} catch (SQLException i) {
 			i.printStackTrace();
 		}
+        Collections.sort(tmp);
+        tmp = cleanList(tmp);
+        for(int i = 0; i < tmp.size(); i++){
+            if(i == tmp.size()-1){
+                listofManus.append("and " + manuName(tmp.get(i)) + ".");
+                break;
+            }
+            listofManus.append(manuName(tmp.get(i)) + ", ");
+        }
 		return listofManus.toString();
 	}
     public String manuName(String manuID){
-        try {
-            	String query = "SELECT * FROM Manufacturer WHERE ManuID = ?";
-            	PreparedStatement myStmt = dbConnect.prepareStatement(query);
-                    
-            	myStmt.setString(1, manuID);
+        StringBuilder manuName = new StringBuilder();
+        switch(manuID.toUpperCase()){
+            case "001":
+                manuName.append("Academic Desks");
+                break;
+            case "002":
+                manuName.append("Office Furnishings");
+                break;
+            case "003":
+                manuName.append("Chairs R Us");
+                break;
+            case "004":
+                manuName.append("Furniture Goods");
+                break;
+            case "005":
+                manuName.append("Fine Office Supplies");
+                break;
+        }
+        return new String(manuName);
+    }
+   
+    public ArrayList<String> cleanList(ArrayList<String> l){
+        ArrayList<String> tmp = new ArrayList<String>();
+        boolean one = false;
+        boolean two = false;
+        boolean three = false;
+        boolean four = false;
+        boolean five = false;
+        for(int i = 0; i < l.size(); i++){
+            if(l.get(i).equals("001")){
+                one = true;
+            }
+            if(l.get(i).equals("002")){
+                two = true;
+            }
+            if(l.get(i).equals("003")){
+                three = true;
+            }
+            if(l.get(i).equals("004")){
+                four = true;
+            }
+            if(l.get(i).equals("005")){
+                five = true;
+            }
+        }
+        if(one == true){
+            tmp.add("001");
+        }
+        if(two == true){
+            tmp.add("002");
+        }
+        if(three == true){
+            tmp.add("003");
+        }
+        if(four == true){
+            tmp.add("004");
+        }
+        if(five == true){
+            tmp.add("005");
+        }
+        return tmp;
+
     }
 
     /**
