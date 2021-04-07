@@ -63,7 +63,6 @@ public class Inventory {
         if (orderList.size() == 0) // empty list indicates no combo was found
         {
            mes.append(showManu(o));
-           System.out.println(mes);
         }
         else
         {
