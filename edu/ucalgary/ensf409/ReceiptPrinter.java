@@ -6,18 +6,17 @@ import java.io.IOException;
 
 
 /**
- * ENSF409 FINAL PROJECT GROUP 40
- * Authors:
- * 
- * Version 1.0
- * 
+ * @ ENSF409 FINAL PROJECT GROUP 40
+ * @author: Dominic Vandekerkhove
+ * @version 1.2
+ * @since 1.0
  * 
  */
-/*
-This class creates an order receipt in an output file
-*/
-//**** NOT FINISHED */
 
+
+/*
+The ReceiptPrinter class uses information from an order to write a receipt into a file
+*/
 public class ReceiptPrinter{
 	private String origRequest;
 	private ArrayList<Furniture> items;
@@ -25,47 +24,55 @@ public class ReceiptPrinter{
 	private String receipt = "";
 	private String file = "orderForm.txt";
 	
-	/**
-	Constructor
+   /**
+	* Constructor
+	* @param origRequest the original order request 
+	* @param items list of Furniture required to complete order
+	* @param price the price of the order
 	*/
-	public ReceiptPrinter(String origRequest, ArrayList<Furniture> items, int price){
+	public ReceiptPrinter(String origRequest, ArrayList<Furniture> items, float price){
 		this.origRequest = origRequest;
 		this.items = items;
-		this.price = price;
+		this.price = Math.round(price);
 		formatReceipt();
 		writeToFile(receipt);
 	}
 	
-	/**
-	Getter for origRequest
+   /**
+	* Getter for origRequest
+	* @return the original order request
 	*/
 	public String getOrigRequest(){
 		return this.origRequest;
 	}
 	
-	/**
-	Getter for items
+   /**
+	* Getter for items
+	* @return the list of furniture required to complete order
 	*/
 	public ArrayList<Furniture> getItems(){
 		return this.items;
 	}
 	
-	/**
-	Getter for cost
+   /**
+	* Getter for price
+	* @return the price of the order
 	*/
 	public int getPrice(){
 		return this.price;
 	}
 	
-	/**
-	Getter for receipt
+   /**
+	* Getter for receipt
+	* @return the receipt String to be written into the file
 	*/
 	public String getReceipt(){
 		return this.receipt;
 	}
 	
-	/**
-	Writes String argument into output file
+   /**
+	* Writes String argument into output file
+	* @param input the String to be written into the file
 	*/
 	public void writeToFile(String input){
 		FileWriter myWriter = null;
@@ -86,8 +93,8 @@ public class ReceiptPrinter{
 		}
 	}
 	
-	/**
-	Formats the receipt String
+   /**
+	* Formats the receipt String
 	*/
 	public void formatReceipt(){
 		receipt +=	"Furniture Order Form\n"
@@ -96,13 +103,14 @@ public class ReceiptPrinter{
 					+"Contact: \n"
 					+"Date: \n"
 					+"\n"
-					+"Original Request: \n" +origRequest
-					+"\n"
+					+"Original Request: " + origRequest
+					+"\n\n"
 					+"Items Ordered\n";
 		for (int i = 0; i < items.size(); i++){
-			receipt += items.get(i).getID() +"\n";
+			receipt += "ID: " + items.get(i).getID() +"\n";
 		}
-		receipt += "Total Price: $" +price;
+		
+		receipt += "\n" + "Total Price: $" +price;
 	}
 	
 }
