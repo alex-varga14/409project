@@ -11,28 +11,26 @@ import java.awt.event.*;
  * @since 1.0
  * 
  */
-/*
-This class serves to receive command line input for an order request.
-Basic for now, implementation can be made better and more efficient possibly.
+/* Input Class Documentation:
+This class serves to receive an user input and instantiate an Order instance.
+
+Methods:
+main()
+	* Accept a user-input argument which specifies a user input for 1) furniture category, 2) its type,
+    * and 3) the number of items requested.
+	* The argument should be in order stated above as three strings.
+    * EXAMPLE INPUTs:
+    * mesh chair, 1
+    * executive chair, 2
+    * Therefore, the category followed by a space then its type followed by a comma then a space and 
+    * finally the requested amount.
+	* If no argument is specified, it throws a custom exception, 
+    * OrderArugmentNotProvidedException. Additional arguments are ignored.
 */
-//**** NOT FINISHED */
 public class Input {
-
-    /* main()
-	   * Accept a command-line argument which specifies a user input for 1) furniture category, 2) its type,
-       * and 3) the number of items requested.
-	   * The argument should be in order stated above as three strings.
-       * EXAMPLE INPUTs:
-       * mesh chair, 1
-       * executive chair, 2
-       * Therefore, the category followed by a space then its type followed by a comma then a space and 
-       * finally the requested amount.
-	   * If no argument is specified, it throws a custom exception, 
-       * OrderArugmentNotProvidedException. Additional arguments are ignored.
-	  */
-
 	public static void main(String[] args) throws OrderArgumentInvalidException {
-           String t, f, n;
+        try{
+            String t, f, n;
            t = JOptionPane.showInputDialog(
             "Welcome to the University of Calgary Supply Chain Management (SCM) Furniture Recycling Program\n Please choose a furniture category:");
            f = JOptionPane.showInputDialog("Now Choose a furniture type:");
@@ -44,9 +42,14 @@ public class Input {
 			Order example = new Order(t.strip() + " " + f.strip() + ", " + n.strip());
             String result = inventory.executeOrder(example);
             System.out.println(result);
-		}
+        } catch (OrderArgumentInvalidException e){
+            System.err.println("ERROR: INVALID INPUT")
+            System.exit(1);
+        }
+           
+	}
 
-	}  
+}  
 
 /* 
 

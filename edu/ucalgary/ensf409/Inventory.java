@@ -1,7 +1,6 @@
 package edu.ucalgary.ensf409;
 import java.sql.*;
 import java.util.*;
-import java.util.ArrayList;
 /**
  * @ ENSF409 FINAL PROJECT GROUP 40
  * @authors: Alex Varga and Ben Krett
@@ -52,6 +51,7 @@ public class Inventory {
     public final String PASSWORD; 
 	private Connection dbConnect;
 	private ResultSet results;
+    
     /** CONSTRUCTOR
      * Instantiates an Inventory instance with the corredt DBURL, Username and Password.
      */
@@ -60,6 +60,7 @@ public class Inventory {
     this.USERNAME = "alexcode";
     this.PASSWORD = "glorycode";
     }
+
     /**
      * Simple getter for the DBURL string
      * @return DBURL

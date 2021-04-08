@@ -4,3 +4,6 @@
 edu/ucalgary/ensf409/Input.class
 edu/ucalgary/ensf409/Inventory.class
 edu/ucalgary/ensf409/Order.class
+edu/ucalgary/ensf409/Furniture.class
+edu/ucalgary/ensf409/OrderArgumentInvalidException.class
+edu/ucalgary/ensf409/ReceiptPrinter.class

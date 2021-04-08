@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
  * @since 1.0
  * 
  */
-//**** NOT FINISHED */
 /* Order Class Documentation:
 This class instiantiates an Order instance and works with the Inventory and Furniture classes to determine
 if an order can be fulfilled.
