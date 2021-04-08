@@ -12,13 +12,15 @@ import java.util.*;
  * 
  */
 /* 
-This class tests all the possible 
+This class tests all the possible scenarios 
 */
 
 public class FinalProjectTest{
 
 	public FinalProjectTest(){
 	}
+
+	public final static Inventory inventory = new Inventory();
 
 
 	// public Inventory inventory;
@@ -65,6 +67,51 @@ public class FinalProjectTest{
 
 	/*** ReceiptPrinter CLASS TESTS ***/
 
-
+	@Test
+	public void testReceiptPrinterConstructorAndGetOrigRequest(){
+		inventory.initializeConnection();
+		Order o = new Order("mesh chair, 1");
+		ArrayList<Furniture> list = inventory.findCheapestCombo(o);
+		ReceiptPrinter test = new ReceiptPrinter("mesh chair, 1", list, 150);
+		assertEquals("mesh chair, 1", test.getOrigRequest());
+	}
+	/*
+	@Test
+	public void testReceiptPrinterGetList(){
+		Order o = new Order("mesh chair, 1");
+		ArrayList<Furniture> list = inventory.findCheapestCombo(o);
+		ReceiptPrinter test = new ReceiptPrinter("mesh chair, 1", list, 150);
+		assertEquals(list, test.getItems());
+	}
+	
+	@Test
+	public void testReceiptPrinterGetPrice(){
+		Order o = new Order("mesh chair, 1");
+		ArrayList<Furniture> list = inventory.findCheapestCombo(o);
+		ReceiptPrinter test = new ReceiptPrinter("mesh chair, 1", list, 150);
+		assertEquals(150, test.getPrice());
+	}
+	
+	@Test 
+	public void testReceiptPrinterFormatReceipt(){
+		Order o = new Order("mesh chair, 1");
+		ArrayList<Furniture> list = inventory.findCheapestCombo(o);
+		ReceiptPrinter test = new ReceiptPrinter("mesh chair, 1", list, 150);
+		String shouldBe =	"Furniture Order Form\n"
+							+"\n"
+							+"Faculty Name: \n"
+							+"Contact: \n"
+							+"Date: \n"
+							+"\n"
+							+"Original Request: mesh chair, 1" 
+							+"\n\n"
+							+"Items Ordered\n"
+							+"ID: C9890\n"
+							+"ID: C0942\n"
+							+"\n" +"Total Price: $150";
+		
+		assertEquals(shouldBe, test.getReceipt());
+	}
+	*/
 
 }
