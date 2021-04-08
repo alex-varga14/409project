@@ -23,7 +23,7 @@ public class Input extends JFrame implements ActionListener {
     JLabel l;      // Initialize a label that gives the user directions on what to input.
     JButton b;     // Initialize a button that can be clicked on.
     JButton exit;  // Initalize a button that can be clicked on.
-    private String input; // String to strore user input 
+    private StringBuilder input; // String to store user input 
     private int counter = 1; // Counter for button clicks
 
     public Input(){ // sets up GUI
@@ -52,7 +52,7 @@ public class Input extends JFrame implements ActionListener {
         try{
 
             if(counter == 1){
-                input = in.getText();
+                input = new StringBuilder(in.getText());
                 l.setText("Now Choose a furniture type:");
                 in.setText("");
                 counter = 2;
@@ -60,22 +60,22 @@ public class Input extends JFrame implements ActionListener {
             }
 
             else if (counter == 2){
-                input += " " + in.getText();
+                input.append(" " + in.getText());
                 l.setText("Finally, please request the amount of the specified item you want:");
                 in.setText("");
                 counter = 3;
             }
 
             else if (counter == 3){
-                input += ", " + in.getText();
+                input.append(", " + in.getText());
                 l.setText("Order Complete! Click enter for new order");
 
+
                 counter = 4;
-                System.out.println(input);
             }
 
             else if (counter == 4){
-                input = "";
+                input = new StringBuilder();
                 l.setText("Choose a furniture category");
                 in.setText("");
                 counter = 1;
@@ -88,9 +88,11 @@ public class Input extends JFrame implements ActionListener {
 
     }
 
-    public String getInput(){ // Getter for String input containing user input.
 
-        return input;
+    public String getInput(){
+
+        return input.toString();
+
     }
 
 
@@ -107,21 +109,24 @@ public class Input extends JFrame implements ActionListener {
        * OrderArugmentNotProvidedException. Additional arguments are ignored.
 	  */
 
-	public static void main(String[] args) throws OrderArgumentNotProvidedException {
+	public static void main(String[] args) { //throws OrderArgumentNotProvidedException {
            Input input = new Input(); 
 
            // StringBuilder tmp = new StringBuilder();
            //tmp.append(args[0].strip() + " " + args[1].strip() + " " + args[2].strip());
-            Inventory inventory = new Inventory();
-            inventory.initializeConnection();
-			Order example = new Order(input.getInput());
+            //Inventory inventory = new Inventory();
+            //inventory.initializeConnection();
+			//Order example = new Order(input.getInput());
 
-           if (input.getInput == null) {
-                throw new OrderArgumentNotProvidedException();
-            }
+           //if (input.getInput == null) {
+                //throw new OrderArgumentNotProvidedException();
+           // }
             
-            String result = inventory.executeOrder(example);
-            System.out.println(result);
+            //String result = inventory.executeOrder(example);
+       
+               System.out.println(input.getInput());
+           
+
 		}
 
 	}  
