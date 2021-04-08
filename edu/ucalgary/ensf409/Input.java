@@ -1,6 +1,5 @@
 package edu.ucalgary.ensf409;
 import java.util.*;
-import java.io.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;  
@@ -12,7 +11,8 @@ import java.awt.event.*;
  * 
  */
 /* Input Class Documentation:
-This class serves to receive an user input and instantiate an Order instance.
+This class serves to receive an user input and instantiate an Order instance. Checks if the order is valid according to
+database furniture items and type.
 
 Methods:
 main()
@@ -33,26 +33,46 @@ public class Input {
             String t, f, n;
             t = JOptionPane.showInputDialog(
             "Welcome to the University of Calgary Supply Chain Management (SCM) Furniture Recycling Program\n Please choose a furniture category:");
-            f = JOptionPane.showInputDialog("Now Choose a furniture type:");
-            n = JOptionPane.showInputDialog("Finally, please request the amount of the specified item you want:");
+            if((t.strip().toLowerCase().equals("mesh")) || (t.strip().toLowerCase().equals("kneeling")) || 
+            (t.strip().toLowerCase().equals("task")) || (t.strip().toLowerCase().equals("executive")) || (t.strip().toLowerCase().equals("ergonomic")) ||
+            (t.strip().toLowerCase().equals("standing")) || (t.strip().toLowerCase().equals("traditional")) || (t.strip().toLowerCase().equals("adjustable") )
+             || (t.strip().toLowerCase().equals("desk")) || (t.strip().toLowerCase().equals("study")) || (t.strip().toLowerCase().equals("swing arm")) ||
+             (t.strip().toLowerCase().equals("small")) || (t.strip().toLowerCase().equals("medium")) || (t.strip().toLowerCase().equals("large"))){
+                f = JOptionPane.showInputDialog("Now Choose a furniture type:");
+                f.strip();
+                if( ((t.strip().toLowerCase().equals("desk")) && (!(f.strip().toLowerCase().equals("desk"))))|| 
+                ((!(t.strip().toLowerCase().equals("desk"))) && (f.strip().toLowerCase().equals("desk"))) ||
+                (f.strip().toLowerCase().equals("chair")) || (f.strip().toLowerCase().equals("lamp")) || 
+                (f.strip().toLowerCase().equals("filing"))){ 
+                    n = JOptionPane.showInputDialog("Finally, please request the amount of the specified item you want:");
+                    int j = Integer.parseInt(n.strip());
+                    if(j > 0){
+                        Inventory inventory = new Inventory();
+                        inventory.initializeConnection();
+                        Order example = new Order(t.strip() + " " + f.strip() + ", " + n.strip());
+                        String result = inventory.executeOrder(example);
+                        System.out.println(result);
+                    } else {
+                        throw new OrderArgumentInvalidException();
+                    }
+                } else {
+                    throw new OrderArgumentInvalidException();
+                }
+             } else {
+                 throw new OrderArgumentInvalidException();
+             }
            // StringBuilder tmp = new StringBuilder();
            //tmp.append(args[0].strip() + " " + args[1].strip() + " " + args[2].strip());
-            Inventory inventory = new Inventory();
-            inventory.initializeConnection();
-			Order example = new Order(t.strip() + " " + f.strip() + ", " + n.strip());
-            String result = inventory.executeOrder(example);
-            System.out.println(result);
         } catch (OrderArgumentInvalidException e){
             System.err.println("ERROR: INVALID INPUT");
             System.exit(1);
-        }
-           
+        }    
 	}
-
 }  
 
-/* 
 
+
+/*
 public class Input extends JFrame implements ActionListener {
 
     JTextField in; // Initialize a textfield that allows for user input in the GUI.
@@ -61,6 +81,8 @@ public class Input extends JFrame implements ActionListener {
     JButton exit;  // Initalize a button that can be clicked on.
     private StringBuilder odr = new StringBuilder(); // String to strore user input 
     private int counter = 1; // Counter for button clicks
+    Inventory inventory = new Inventory();
+    inventory.initializeConnection();
 
     public Input(){ // sets up GUI
         in = new JTextField();
@@ -108,8 +130,11 @@ public class Input extends JFrame implements ActionListener {
                 odr.append(", " + in.getText());
                 l.setText("Order Complete! Click enter for new order");
                 System.out.println("This is second input: " + odr);
+                Order example = new Order(new String(odr));
+                String result = inventory.executeOrder(example);
+                System.out.println(result);
                 counter = 4;
-                //System.out.println(input);
+                
             }
 
             else if (counter == 4){
@@ -148,6 +173,8 @@ public class Input extends JFrame implements ActionListener {
        * finally the requested amount.
 	   * If no argument is specified, it throws a custom exception, 
        * OrderArugmentNotProvidedException. Additional arguments are ignored.
+       * 
+       * 
 	  
 
       public static void main(String[] args) throws OrderArgumentInvalidException {
@@ -155,8 +182,7 @@ public class Input extends JFrame implements ActionListener {
 
         // StringBuilder tmp = new StringBuilder();
         //tmp.append(args[0].strip() + " " + args[1].strip() + " " + args[2].strip());
-         Inventory inventory = new Inventory();
-         inventory.initializeConnection();
+         
          System.out.println(input.getOdr());
            //    System.out.println(input.getInput());
      // 	Order example = new Order(input.getInput());
@@ -168,6 +194,4 @@ public class Input extends JFrame implements ActionListener {
      //     System.out.println(result);
      }
 
- } 
-
- */
+ } */

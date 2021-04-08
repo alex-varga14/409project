@@ -52,7 +52,7 @@ public class FinalProjectTest{
 		order.equals(testOrder.getType() + " " + testOrder.getFurniture() + " " + testOrder.getAmount()));
 	}
 
-	@TEST
+	//@TEST
 	//
 	//
 	//
