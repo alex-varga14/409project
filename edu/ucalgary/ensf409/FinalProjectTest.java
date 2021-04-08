@@ -6,7 +6,7 @@ import java.util.*;
 
 /**
  * @ ENSF409 FINAL PROJECT GROUP 40
- * @authors: Dominic Vandekerkhove
+ * @authors: Dominic Vandekerkhove, Alex Varga
  * @version 1.0
  * @since 1.0
  * 
@@ -16,19 +16,28 @@ This class tests all the possible
 */
 
 public class FinalProjectTest{
-	/*** INPUT CLASS TESTS ***/
-	public Inventory inventory;
-	@Before
-	public void setUp(){
-		inventory = new Inventory();
-		inventory.initializeConnection();
+
+	public FinalProjectTest(){
 	}
+
+
+	// public Inventory inventory;
+	// @Before
+	// public void setUp(){
+	// 	inventory = new Inventory();
+	// 	inventory.initializeConnection();
+	// }
+
+
+
+	/*** INPUT CLASS TESTS ***/
 
 
 	/*** ORDER CLASS TESTS ***/
 	@Test
 	//Constructor create with an order
-	public void testConstructorOrderGetElements() {
+	//tests if getters work properly to retreive order
+	public void testOrderConstructorGetElements() {
 		Order testOrder = new Order("mesh chair, 1");
 	
 		String type = testOrder.getType();
@@ -37,9 +46,17 @@ public class FinalProjectTest{
 	
 		// Retrieve order, check if it matches 
 		String order = type + " " + furniture + " " + String.valueOf(amount);
-		assertTrue("Creating order and using getters to deteming if its placed properly failed", 
+		assertTrue("Instantiating Order Instance and using getters to determing if constructor matches the correct order failed:", 
 		order.equals(testOrder.getType() + " " + testOrder.getFurniture() + " " + testOrder.getAmount()));
-	  }
+	}
+
+	@TEST
+	//
+	//
+	//
+	
+
+
 
 
 	/*** INVENTORY CLASS TESTS ***/
@@ -47,5 +64,7 @@ public class FinalProjectTest{
 	/*** FURNITURE CLASS TESTS ***/
 
 	/*** ReceiptPrinter CLASS TESTS ***/
+
+
 
 }
