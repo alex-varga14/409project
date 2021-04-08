@@ -4,32 +4,19 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+
 /**
  * @ ENSF409 FINAL PROJECT GROUP 40
- * @author: Dominic Vanderkerkhove
+ * @author: Dominic Vandekerkhove
  * @version 1.2
  * @since 1.0
  * 
  */
-/* ReceiptPrinter Class Documentation:
-This class serves to format a "receipt" for an order placed if it can be fulfilled. Ouputs a .txt file when order is 
-completed.
-Fields:
-private String origRequest;
-	- A string containing the origal order request.
-private ArrayList<Furniture> items;
-	- An ArrayList of type Furniture to contain all the items required to complete the order.
-private int price;
-	-
-private String receipt = "";
-	-
-private String file = "orderForm.txt";
-	-
 
-Methods:
 
+/*
+The ReceiptPrinter class uses information from an order to write a receipt into a file
 */
-
 public class ReceiptPrinter{
 	private String origRequest;
 	private ArrayList<Furniture> items;
@@ -37,9 +24,11 @@ public class ReceiptPrinter{
 	private String receipt = "";
 	private String file = "orderForm.txt";
 	
-	/** Constructor
-	 * Constructor takes in original request as string, the ArrayList of Furniture items to complete the order and 
-	 * the prices associated with these items. O
+   /**
+	* Constructor
+	* @param origRequest the original order request 
+	* @param items list of Furniture required to complete order
+	* @param price the price of the order
 	*/
 	public ReceiptPrinter(String origRequest, ArrayList<Furniture> items, float price){
 		this.origRequest = origRequest;
@@ -49,36 +38,41 @@ public class ReceiptPrinter{
 		writeToFile(receipt);
 	}
 	
-	/**
-	Getter for origRequest
+   /**
+	* Getter for origRequest
+	* @return the original order request
 	*/
 	public String getOrigRequest(){
 		return this.origRequest;
 	}
 	
-	/**
-	Getter for items
+   /**
+	* Getter for items
+	* @return the list of furniture required to complete order
 	*/
 	public ArrayList<Furniture> getItems(){
 		return this.items;
 	}
 	
-	/**
-	Getter for cost
+   /**
+	* Getter for price
+	* @return the price of the order
 	*/
 	public int getPrice(){
 		return this.price;
 	}
 	
-	/**
-	Getter for receipt
+   /**
+	* Getter for receipt
+	* @return the receipt String to be written into the file
 	*/
 	public String getReceipt(){
 		return this.receipt;
 	}
 	
-	/**
-	Writes String argument into output file
+   /**
+	* Writes String argument into output file
+	* @param input the String to be written into the file
 	*/
 	public void writeToFile(String input){
 		FileWriter myWriter = null;
@@ -99,8 +93,8 @@ public class ReceiptPrinter{
 		}
 	}
 	
-	/**
-	Formats the receipt String
+   /**
+	* Formats the receipt String
 	*/
 	public void formatReceipt(){
 		receipt +=	"Furniture Order Form\n"
