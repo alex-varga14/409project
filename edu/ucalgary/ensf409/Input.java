@@ -23,7 +23,7 @@ public class Input extends JFrame implements ActionListener {
     JLabel l;      // Initialize a label that gives the user directions on what to input.
     JButton b;     // Initialize a button that can be clicked on.
     JButton exit;  // Initalize a button that can be clicked on.
-    private StringBuilder input; // String to store user input 
+    private String input; // String to store user input 
     private int counter = 1; // Counter for button clicks
 
     public Input(){ // sets up GUI
@@ -52,7 +52,7 @@ public class Input extends JFrame implements ActionListener {
         try{
 
             if(counter == 1){
-                input = new StringBuilder(in.getText());
+                input = in.getText();
                 l.setText("Now Choose a furniture type:");
                 in.setText("");
                 counter = 2;
@@ -60,14 +60,14 @@ public class Input extends JFrame implements ActionListener {
             }
 
             else if (counter == 2){
-                input.append(" " + in.getText());
+                input += " " + in.getText();
                 l.setText("Finally, please request the amount of the specified item you want:");
                 in.setText("");
                 counter = 3;
             }
 
             else if (counter == 3){
-                input.append(", " + in.getText());
+                input += ", " + in.getText();
                 l.setText("Order Complete! Click enter for new order");
 
 
@@ -75,7 +75,7 @@ public class Input extends JFrame implements ActionListener {
             }
 
             else if (counter == 4){
-                input = new StringBuilder();
+                input = "";
                 l.setText("Choose a furniture category");
                 in.setText("");
                 counter = 1;
