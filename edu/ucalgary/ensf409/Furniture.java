@@ -14,7 +14,6 @@ import java.sql.SQLException;
 This Furniture class manages all the Furniture types from inventory.sql and determines
 which ID's have corresponding parts to fulfill the order.
 */
-
 public class Furniture
 {
 
@@ -52,7 +51,6 @@ public class Furniture
     public String getManuID() {
         return ManuID;
     }
-    
 
     /**
      * Creates a furniture object from a furniture style, type, and database row.
@@ -69,7 +67,6 @@ public class Furniture
         Price   = Float.parseFloat(r.getString("Price"));
         ManuID  = r.getString("ManuID");
         ID  = r.getString("ID");
-
 
         for (Part p :Part.values())
         {
@@ -100,6 +97,5 @@ public class Furniture
                 break;
         }
     }
-
 
 }

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
 /**
  * @ ENSF409 FINAL PROJECT GROUP 40
  * @author: Dominic Vanderkerkhove
@@ -12,10 +11,24 @@ import java.io.IOException;
  * @since 1.0
  * 
  */
-/*
-This class creates an order receipt in an output file
+/* ReceiptPrinter Class Documentation:
+This class serves to format a "receipt" for an order placed if it can be fulfilled. Ouputs a .txt file when order is 
+completed.
+Fields:
+private String origRequest;
+	- A string containing the origal order request.
+private ArrayList<Furniture> items;
+	- An ArrayList of type Furniture to contain all the items required to complete the order.
+private int price;
+	-
+private String receipt = "";
+	-
+private String file = "orderForm.txt";
+	-
+
+Methods:
+
 */
-//**** NOT FINISHED */
 
 public class ReceiptPrinter{
 	private String origRequest;
@@ -24,8 +37,9 @@ public class ReceiptPrinter{
 	private String receipt = "";
 	private String file = "orderForm.txt";
 	
-	/**
-	Constructor
+	/** Constructor
+	 * Constructor takes in original request as string, the ArrayList of Furniture items to complete the order and 
+	 * the prices associated with these items. O
 	*/
 	public ReceiptPrinter(String origRequest, ArrayList<Furniture> items, float price){
 		this.origRequest = origRequest;
