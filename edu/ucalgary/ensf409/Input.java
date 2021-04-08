@@ -25,9 +25,14 @@ public class Input extends JFrame implements ActionListener {
     JButton exit;  // Initalize a button that can be clicked on.
     private String input; // String to store user input 
     private int counter = 1; // Counter for button clicks
+    private String input1;
+    private String input2;
+    private String input3;
+    private String regex = "[0-9]+";
 
     public Input(){ // sets up GUI
         in = new JTextField();
+        in.setText("");
         in.setBounds(300,300,150,20);   // Sets position and size of TextField
         l = new JLabel("<html> Welcome to the University of Calgary Supply Chain Management (SCM) Furniture Recycling Program\n<br>Please choose a furniture category:</html>");    // Set text shown in label
         l.setBounds(50,50,800,200); // Sets position and size of Label
@@ -41,6 +46,7 @@ public class Input extends JFrame implements ActionListener {
         add(in); //Adds TextField in to GUI
         add(l); //Adds Label l to GUI
         add(exit); //Adds button exit to GUI
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800,800); // Sets size of window
         setLayout(null); 
         setVisible(true); // Enables window to be seen
@@ -51,27 +57,60 @@ public class Input extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e){ // Function that determines what the user should input based on the state of the counter
         try{
 
+            
+
             if(counter == 1){
-                input = in.getText();
+                input1 = in.getText();
+                input1 = input1.toLowerCase();
+                if (input1.compareTo("kneeling") == 0 || input1.compareTo("task") == 0 || input1.compareTo("mesh") == 0 || input1.compareTo("executive") == 0  || input1.compareTo("ergonomic") == 0  || input1.compareTo("standing") == 0 ||input1.compareTo("adjustable") == 0 ||input1.compareTo("traditional") == 0  || input1.compareTo("desk") == 0  || input1.compareTo("study") == 0  || input1.compareTo("swing Arm") == 0 || input1.compareTo("small") == 0 || input1.compareTo("medium") == 0 || input1.compareTo("large") == 0){
+                input = input1;
                 l.setText("Now Choose a furniture type:");
                 in.setText("");
                 counter = 2;
+                }
+
+            else{
+                l.setText("Incorrect input, press Enter to try again please");
+                in.setText("");
+                input = "";
+                counter = 4;
+                
+            }
 
             }
 
             else if (counter == 2){
+                input2 = in.getText();
+                input2 = input2.toLowerCase();
+                if (input1.compareTo("kneeling") == 0 && input2.compareTo("chair") == 0|| input1.compareTo("task") == 0 && input2.compareTo("chair") == 0|| input1.compareTo("mesh") == 0 && input2.compareTo("chair") == 0 || input1.compareTo("executive") == 0 && input2.compareTo("chair") == 0 || input1.compareTo("ergonomic") == 0 && input2.compareTo("chair") == 0 || input1.compareTo("standing") == 0 && input2.compareTo("desk") == 0 ||input1.compareTo("adjustable") == 0 && input2.compareTo("desk") == 0 ||input1.compareTo("traditional") == 0 && input2.compareTo("desk") == 0  || input1.compareTo("desk") == 0 && input2.compareTo("lamp") == 0 || input1.compareTo("study") == 0 && input2.compareTo("lamp") == 0   || input1.compareTo("swing Arm") == 0  && input2.compareTo("lamp") == 0 || input1.compareTo("small") == 0  && input2.compareTo("filing") == 0  || input1.compareTo("medium") == 0 && input2.compareTo("filing") == 0 || input1.compareTo("large") == 0 && input2.compareTo("filing") == 0 ){
                 input += " " + in.getText();
                 l.setText("Finally, please request the amount of the specified item you want:");
                 in.setText("");
                 counter = 3;
+                }
+
+                else{
+                    l.setText("Incorrect input, press Enter to try again please");
+                    in.setText("");
+                    counter = 4;
+                }
             }
 
             else if (counter == 3){
+                input3 = in.getText();
+                if (input3.matches(regex)){
                 input += ", " + in.getText();
                 l.setText("Order Complete! Click enter for new order");
-
+                System.out.println(input);
 
                 counter = 4;
+                }
+
+                else {
+                    l.setText("Incorrect input, press Enter to try again please");
+                    in.setText("");
+                    counter = 4;
+                }
             }
 
             else if (counter == 4){
@@ -124,7 +163,7 @@ public class Input extends JFrame implements ActionListener {
             
             //String result = inventory.executeOrder(example);
        
-               System.out.println(input.getInput());
+              // System.out.println(input.getInput());
            
 
 		}
