@@ -7,7 +7,7 @@ package edu.ucalgary.ensf409;
  * 
  */
 /* OrderArgumentInvalidExcepton Class Documentation:
-This class serves to throw an exception in Input.java if the user input is invalid.
+This class serves to throw an exception in Input.java if the user input is invalid. Extends RuntimeException
 */
 public class OrderArgumentInvalidException extends RuntimeException{
     public OrderArgumentInvalidException() {

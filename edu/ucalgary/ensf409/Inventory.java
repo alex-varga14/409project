@@ -9,32 +9,79 @@ import java.util.ArrayList;
  * @since 1.0
  * 
  */
-//**** NOT FINISHED */
+
 /* Inventory Class Documentation:
 This class serves to connect the database and check if an order can be filled and if so,
-provide the cheapest option for the desired furniture type.
+provide the cheapest option for the desired furniture type, and if it cannot be completed, returns a list of manufacturers.
+Fields:
+public final String DBURL; 
+    -string to store the database url information
+public final String USERNAME; 
+    -string to store the user's account username
+public final String PASSWORD; 
+    -string to store the user's account password
+private Connection dbConnect;
+    -Connection instance to create a connection with the database
+private ResultSet results;
+    -ResultSet instance to store results generated from SQL statements.
+
+Methods:
+    -public Inventory()
+    -public void initializeConnection()
+    -public String executeOrder (Order o)
+    -public String showManu(Order p)
+    -public String manuName(String manuID)
+    -public ArrayList<String> cleanList(ArrayList<String> l)
+    -private ArrayList<Furniture> findCheapestCombo (Order o)
+    -private ArrayList<Integer> recursiveFindCheapest (ArrayList<Furniture> f, ArrayList<Integer> currentlyUsed, Order o)
+    -private ArrayList<Integer> deepCopyArrayList (ArrayList<Integer> a)
+    -private float getFurnitureListPrice (ArrayList<Furniture> f, ArrayList<Integer> c)
+    -public ArrayList<Furniture> getAvailableFurniture (String type, String furniture)
+    -public String selectComponents(String type, String id)
+    -public String englishConvert(String l)
+    -public void deleteInventoryItem(String furniture, String ID)
+    -public String getDburl()
+    -public String getUsername()
+    -public String getPassword()
 */
 
 public class Inventory {
     
-    public final String DBURL; //store the database url information
-    public final String USERNAME; //store the user's account username
-    public final String PASSWORD; //store the user's account password
+    public final String DBURL; 
+    public final String USERNAME; 
+    public final String PASSWORD; 
 	private Connection dbConnect;
 	private ResultSet results;
-
+    /** CONSTRUCTOR
+     * Instantiates an Inventory instance with the corredt DBURL, Username and Password.
+     */
     public Inventory(){
     this.DBURL = "jdbc:mysql://localhost/inventory";
     this.USERNAME = "alexcode";
     this.PASSWORD = "glorycode";
     }
+    /**
+     * Simple getter for the DBURL string
+     * @return DBURL
+     */
     public String getDburl(){
 		return this.DBURL;
 	}
+
+    /**
+     * Simple getter for the USERNAME string
+     * @return USERNAME
+     */
 	public String getUsername(){
 		return this.USERNAME;
 	}
-	public String getPassword(){
+
+    /**
+     * Simple getter for the PASSWORD string
+     * @return PASSWORD
+     */
+    public String getPassword()
+	{
 		return this.PASSWORD;
 	}
 
@@ -51,24 +98,20 @@ public class Inventory {
 
      /**
      * Takes an order, and attempts to execute it. If the inventory exists to fill the order, the cheapest combination is found,
-     * a receipt is printed and the purshased furniture is removed from inventory. If not, the user is informed.
-     * displayed, and
+     * a receipt is printed and the purshased furniture is removed from inventory. If not, the user is informed that
+     * the order cannot be completed and the suggested manufacturers are provided.
      * @param o Order to be fufilled.
-     * @return $$$NOT SURE WHAT THIS SHOULD BE RETURNING BOOL OR NULL?
+     * @return mes String.
      */
-    public String executeOrder (Order o)
-    {
+    public String executeOrder (Order o){
         StringBuilder mes = new StringBuilder();
         ArrayList<Furniture> orderList = findCheapestCombo(o);
-        if (orderList.size() == 0) // empty list indicates no combo was found
-        {
+        if (orderList.size() == 0){ // empty list indicates no combo was found
            mes.append(showManu(o));
         }
-        else
-        {
+        else {
             float price = 0;
-            for (Furniture f : orderList)
-            {
+            for (Furniture f : orderList) {
                 System.out.println(String.format("ID: %s", f.getID()));
                 deleteInventoryItem(o.getFurniture(), f.getID());
                 price += f.getPrice();
@@ -78,9 +121,13 @@ public class Inventory {
                 o.getType() + " " + o.getFurniture() + ", " + String.valueOf(o.getAmount()), orderList, price);
         }
         return new String(mes);
-
     }
 
+    /**
+     * Takes in order, and determines all the possible manufacturers of the type of furniture.
+     * @param p Order of type of furniture
+     * @return listofManus.toString() String of the suggested manufacturers of the type of furniture.
+     */
     public String showManu(Order p){
         ArrayList<String> tmp = new ArrayList<String>();
 		StringBuffer listofManus = new StringBuffer();
@@ -106,6 +153,12 @@ public class Inventory {
         }
 		return listofManus.toString();
 	}
+
+    /**
+     * Takes in Manufacturer ID's and returns correspodning name of manufacturer.
+     * @param manuID The string of the manufacturer ID provided by showManu
+     * @return manuName Returns manufacturer name
+     */
     public String manuName(String manuID){
         StringBuilder manuName = new StringBuilder();
         switch(manuID.toUpperCase()){
@@ -128,6 +181,11 @@ public class Inventory {
         return new String(manuName);
     }
    
+    /**
+     * Removes all duplicate manufacturer ID's from a list for the specified type. Probably a better way to implement
+     * @param l An ArrayList of strings containing duplicate manufacturer ID's
+     * @return tmp An ArrayList of unique manufacturers of the furniture
+     */
     public ArrayList<String> cleanList(ArrayList<String> l){
         ArrayList<String> tmp = new ArrayList<String>();
         boolean one = false;
@@ -177,21 +235,17 @@ public class Inventory {
      * @param o
      * @return
      */
-    private ArrayList<Furniture> findCheapestCombo (Order o)
-    {
-        ArrayList<Furniture> availableFurniture = getAvailableFurniture(o.getType(), o.getFurniture()); // get list of all furniture matching order
+    private ArrayList<Furniture> findCheapestCombo (Order o){
+        ArrayList<Furniture> availableFurniture = getAvailableFurniture(o.getType(), o.getFurniture()); 
+        // get list of all furniture matching order
         ArrayList<Integer> cheapestCombo = recursiveFindCheapest(availableFurniture, new ArrayList<Integer>(), o);
-
         ArrayList<Furniture> orderList = new ArrayList<Furniture>();
 
-        if (o.fillsOrder(availableFurniture, cheapestCombo)) // if order could not be filled, will return empty list
-        {
-            for (int i : cheapestCombo)
-            {
+        if (o.fillsOrder(availableFurniture, cheapestCombo)){ // if order could not be filled, will return empty list
+            for (int i : cheapestCombo){
                 orderList.add(availableFurniture.get(i)); // fills arraylist of furniture with indices found to be cheapest
             }
         }
-        
         return orderList;
     }
 
@@ -204,52 +258,42 @@ public class Inventory {
      * @return ArrayList of indices indicating which items in the available furniture list make the cheapest combo
      */
 
-    private ArrayList<Integer> recursiveFindCheapest (ArrayList<Furniture> f, ArrayList<Integer> currentlyUsed, Order o)
-    {
-       
-        if (o.fillsOrder(f, currentlyUsed))
-        {
+    private ArrayList<Integer> recursiveFindCheapest (ArrayList<Furniture> f, ArrayList<Integer> currentlyUsed, Order o){
+        if (o.fillsOrder(f, currentlyUsed)){
             return deepCopyArrayList(currentlyUsed); 
             // base case, if all parts needed are already contained in list, no reason to add more
         }
-        
         ArrayList<Integer> cheapestSolution = deepCopyArrayList(currentlyUsed);
         float cheapestPrice = Float.MAX_VALUE;
-        // 
 
-        for (int i = 0; i < f.size(); i++)
-        {
-            if (currentlyUsed.contains(i))
-            {
+        for (int i = 0; i < f.size(); i++){
+            if (currentlyUsed.contains(i)){
                 continue; // ensure indices aren't inserted twice
             }
-            else
-            {
+            else {
                 currentlyUsed.add(i); // pushes new furniture, test if new combo is cheaper then previously used combos
-
                 ArrayList<Integer> newSolution = recursiveFindCheapest(f, currentlyUsed, o);
                 float newPrice = getFurnitureListPrice(f, newSolution);
 
-                if (getFurnitureListPrice(f, newSolution) < cheapestPrice)
-                {
+                if (getFurnitureListPrice(f, newSolution) < cheapestPrice) {
                     // update cheapest with new cheaper solution found
                     cheapestPrice = newPrice;
                     cheapestSolution = newSolution;
                 }
                 currentlyUsed.remove(currentlyUsed.size() - 1); // pops furniture for next iteration
             }
-
         }
-     
         return deepCopyArrayList(cheapestSolution);
-        
-        
     }
+    /**
+     * Deep copies an ArrayList when needed.
+     * @param a An ArrayList of integers representing the cheapest solution
+     * @return b An deep copied Arraylist containing the cheapest solutions
+     */
 
     private ArrayList<Integer> deepCopyArrayList (ArrayList<Integer> a){
         ArrayList<Integer> b = new ArrayList<Integer>();
-        for (int i : a)
-        {
+        for (int i : a){
             b.add(i);
         }
         return b;
@@ -261,19 +305,14 @@ public class Inventory {
      * @param c indices of furniture to be summed
      * @return sum price of furniture at indices 
      */
-    private float getFurnitureListPrice (ArrayList<Furniture> f, ArrayList<Integer> c)
-    {
+    private float getFurnitureListPrice (ArrayList<Furniture> f, ArrayList<Integer> c){
         float o = 0;
-        for (int i : c)
-        {
+        for (int i : c){
             o += f.get(i).getPrice();
         }
-        
         return o;
-
     }
 
- 
     /**
      * Accesses database to return a list of all furniture from inventory that match the specified type
      * and furniture style
@@ -282,10 +321,9 @@ public class Inventory {
      * @return ArrayList of furniture that match type and style
      */
 
-    public ArrayList<Furniture> getAvailableFurniture (String type, String furniture)
-    {
+    public ArrayList<Furniture> getAvailableFurniture (String type, String furniture){
         ArrayList<Furniture> output = new ArrayList<Furniture>();
-        try{
+        try {
             Statement myStmt = dbConnect.createStatement();
             results = myStmt.executeQuery("SELECT * FROM " + furniture + " WHERE Type = '" + type +"'");
             System.out.println("The options for " + type + " " + furniture + " are:");
@@ -298,33 +336,16 @@ public class Inventory {
 		} catch (SQLException i) {
 			i.printStackTrace();
 		}
-
         return output;
-
-
     }
-
-    // public String selectType(String f, String t){
-    //     StringBuffer tmp = new StringBuffer();
-    //     try{
-    //         Statement myStmt = dbConnect.createStatement();
-    //         results = myStmt.executeQuery("SELECT * FROM " + t.toUpperCase() + " WHERE Type = '" + f +"'");
-    //         System.out.println("The options for " + f + " " + t + " are:");
-    //         while(results.next()){
-    //             if(results.getString("Type").toLowerCase().equals(f)){
-    //                 System.out.println(f + " " + t + " with ID: " + results.getString("ID") + " are options for this order.");
-    //                 selectComponents(t, results.getString("ID"));
-    //             }
-	// 		}
-	// 		myStmt.close();
-	// 	} catch (SQLException i) {
-	// 		i.printStackTrace();
-	// 	}
-    //     //System.out.println(tmp.toString());
-    //     return tmp.toString();
-    // }
-
-     
+ 
+    /**
+     * Provideds User with a system print displaying all the possible furniture pieces for the type of furniture, displaying
+     * which pieces it has and does not have.
+     * @param type Takes in furniture type
+     * @param id Takes in furniture ID
+     * @return String
+     */
     public String selectComponents(String type, String id){
         StringBuffer tmp = new StringBuffer();
         ResultSet rs;
@@ -371,6 +392,11 @@ public class Inventory {
         return tmp.toString();
     }
 
+    /**
+     * Simple helper function to aid the function of selectComponents. 
+     * Converts 'Y' to "has" and 'N' to "does not have"
+     * @param l Takes in either Y or N
+     */
     public String englishConvert(String l){
         if(l.equals("Y")){
             return "has";
@@ -379,9 +405,12 @@ public class Inventory {
         }
     }
 
-    /*
-	This method is to delete an object in the inventory.
-	*/
+    /**
+     * This method functions to delete an object in the inventory when an order can be made. 
+     * Database updated accordingly.
+     * @param furniture Takes in furniture type of completed order
+     * @param ID Takes in ID of the furniture items used to complete the order
+     */
 	public void deleteInventoryItem(String furniture, String ID){
 		try {
 			String query = "DELETE FROM "+ furniture.toUpperCase() + " WHERE ID = ?";
@@ -396,6 +425,4 @@ public class Inventory {
 			a.printStackTrace();
 		}
 	}
-    
-
 }
