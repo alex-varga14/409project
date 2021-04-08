@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
 /**
  * @ ENSF409 FINAL PROJECT GROUP 40
  * @author: Dominic Vandekerkhove
@@ -13,9 +12,29 @@ import java.io.IOException;
  * 
  */
 
+/* ReceiptPrinter Class Documentation:
+This class serves to format a "receipt" for an order placed if it can be fulfilled. Ouputs a .txt file when order is 
+completed.
+Fields:
+private String origRequest;
+	- A string containing the origal order request.
+private ArrayList<Furniture> items;
+	- An ArrayList of type Furniture to contain all the items required to complete the order.
+private int price;
+	- An int to store the cheapest price to complete the order
+private String receipt = "";
+	- A string formatted to the desired receipt with the completed order.
+private String file = "orderForm.txt";
+	- A string for the name of the .txt file
 
-/*
-The ReceiptPrinter class uses information from an order to write a receipt into a file
+Methods:
+	-public ReceiptPrinter(String origRequest, ArrayList<Furniture> items, float price)
+	-public String getOrigRequest()
+	-public ArrayList<Furniture> getItems()
+	-public int getPrice()
+	-public String getReceipt()
+	-public void writeToFile(String input)
+	-public void formatReceipt()
 */
 public class ReceiptPrinter{
 	private String origRequest;
@@ -76,18 +95,17 @@ public class ReceiptPrinter{
 	*/
 	public void writeToFile(String input){
 		FileWriter myWriter = null;
-		try{
+		try {
 			File myFile = new File(file);
 			myWriter = new FileWriter(file);
 			myWriter.write(input);
-			
-		}catch(IOException e){
+		} catch(IOException e){
 			System.err.println("Failed to write output file");
 		}
-		finally{
-			try{
+		finally {
+			try {
 				myWriter.close();
-			}catch(IOException e){
+			} catch(IOException e){
 				System.err.println("Failed to close output file");
 			}
 		}
@@ -109,8 +127,6 @@ public class ReceiptPrinter{
 		for (int i = 0; i < items.size(); i++){
 			receipt += "ID: " + items.get(i).getID() +"\n";
 		}
-		
 		receipt += "\n" + "Total Price: $" +price;
 	}
-	
 }
