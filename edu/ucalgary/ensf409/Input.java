@@ -31,10 +31,10 @@ public class Input {
 	public static void main(String[] args) throws OrderArgumentInvalidException {
         try{
             String t, f, n;
-           t = JOptionPane.showInputDialog(
+            t = JOptionPane.showInputDialog(
             "Welcome to the University of Calgary Supply Chain Management (SCM) Furniture Recycling Program\n Please choose a furniture category:");
-           f = JOptionPane.showInputDialog("Now Choose a furniture type:");
-           n = JOptionPane.showInputDialog("Finally, please request the amount of the specified item you want:");
+            f = JOptionPane.showInputDialog("Now Choose a furniture type:");
+            n = JOptionPane.showInputDialog("Finally, please request the amount of the specified item you want:");
            // StringBuilder tmp = new StringBuilder();
            //tmp.append(args[0].strip() + " " + args[1].strip() + " " + args[2].strip());
             Inventory inventory = new Inventory();
@@ -43,7 +43,7 @@ public class Input {
             String result = inventory.executeOrder(example);
             System.out.println(result);
         } catch (OrderArgumentInvalidException e){
-            System.err.println("ERROR: INVALID INPUT")
+            System.err.println("ERROR: INVALID INPUT");
             System.exit(1);
         }
            
