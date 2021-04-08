@@ -1,6 +1,5 @@
 package edu.ucalgary.ensf409;
 import java.util.*;
-import java.io.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 /**
@@ -13,18 +12,41 @@ import java.util.regex.Pattern;
 //**** NOT FINISHED */
 /* Order Class Documentation:
 This class instiantiates an Order instance and works with the Inventory and Furniture classes to determine
-if an order can be fulfilled. 
+if an order can be fulfilled.
+Fields:
+private String furniture;
+    -A string for the furniture item for order.
+private String type;
+    -A string for the type of furniture item ordered.
+private int amount;
+    -A int for the amount of items to order
+private static String REGEX 
+	= "([a-zA-z]{4,12}) ([a-zA-Z]{4,12}), ([0-9]{1,2})"
+    -A REGEX to detect that the input is in a correct form.
+private static Pattern PATTERN= Pattern.compile(REGEX);
+    -Pattern to match the Regex to the given order input.
+Methods:
+    -public Order(String order)
+    -public boolean fillsOrder(ArrayList<Furniture> fList, ArrayList<Integer> c)
+    -public void stripComma(String x)
+    -public String getFurniture()
+    -public String getType()
+    -public int getAmount()
+
 */
  public class Order{
 
     private String furniture;
     private String type;
     private int amount;
-    
     private static String REGEX 
 	= "([a-zA-z]{4,12}) ([a-zA-Z]{4,12}), ([0-9]{1,2})";
     private static Pattern PATTERN= Pattern.compile(REGEX);
 
+    /** CONSTRUCTOR
+     * Instantiates an order instance.
+     *  @param order specific order with type furniture, amount
+     */
     public Order(String order){
         //System.out.println(order);
         Matcher m = PATTERN.matcher(order);
@@ -90,18 +112,35 @@ if an order can be fulfilled.
         return false;
     }
 
+    /**
+     * @param x takes in string and strips last character.
+     */
     public void stripComma(String x){
         StringBuilder tmp = new StringBuilder(x);
         tmp.deleteCharAt(x.length()-1);
         this.type = new String(tmp);
     }
 
+    /**
+     * Simple getter for the furniture string.
+     * @return furniture
+     */
     public String getFurniture(){
         return this.furniture;
     }
+
+    /**
+     * Simple getter for the type string.
+     * @return type
+     */
     public String getType(){
         return this.type;
     }
+
+    /**
+     * Simple getter for the amount int.
+     * @return amount
+     */
     public int getAmount(){
         return this.amount;
     }
