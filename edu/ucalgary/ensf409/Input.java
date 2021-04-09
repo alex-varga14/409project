@@ -101,11 +101,10 @@ public class Input extends JFrame implements ActionListener {
                 input3 = in.getText().strip();
                 if (input3.matches(regex)){
                 input += ", " + input3;
-                l.setText("Order Complete! Click enter for new order");
-                System.out.println(input);
+                l.setText("Order Complete!");
                 loginSignal.countDown();
 
-                counter = 4;
+              
                 }
 
                 else {
@@ -159,16 +158,13 @@ public class Input extends JFrame implements ActionListener {
            //tmp.append(args[0].strip() + " " + args[1].strip() + " " + args[2].strip());
             Inventory inventory = new Inventory();
             inventory.initializeConnection();
-			//Order example = new Order(input.getInput());
-
-           //if (input.getInput == null) {
-                //throw new OrderArgumentNotProvidedException();
-           // }
-            
-           // String result = inventory.executeOrder(example);
+            if (input.getInput == null) {
+                throw new OrderArgumentNotProvidedException();
+            }
+            Order example = new Order(input.getInput());
+            String result = inventory.executeOrder(example);
        
-              // System.out.println(input.getInput());
-           
+    
 
 		}
 
