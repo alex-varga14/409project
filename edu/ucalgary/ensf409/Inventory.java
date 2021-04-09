@@ -236,7 +236,7 @@ public class Inventory {
      * @param o
      * @return
      */
-    private ArrayList<Furniture> findCheapestCombo (Order o){
+    public ArrayList<Furniture> findCheapestCombo (Order o){
         ArrayList<Furniture> availableFurniture = getAvailableFurniture(o.getType(), o.getFurniture()); 
         // get list of all furniture matching order
         ArrayList<Integer> cheapestCombo = recursiveFindCheapest(availableFurniture, new ArrayList<Integer>(), o);
