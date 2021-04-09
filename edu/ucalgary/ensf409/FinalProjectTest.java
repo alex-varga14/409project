@@ -1,7 +1,11 @@
 package edu.ucalgary.ensf409;
 import static org.junit.Assert.*;
 import org.junit.*;
+
+import jdk.jfr.Timestamp;
+import java.math.*;
 import java.io.*;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -63,8 +67,41 @@ public class FinalProjectTest{
 
 
 	/*** INVENTORY CLASS TESTS ***/
+	@Test
+	public void testInventoryContructorAndDBAccess ()
+	{
+		inventory.initializeConnection();
+		int len = inventory.getAvailableFurniture("desk", "lamp").size();
+		assertEquals("Wrong number of inventory items fetched", len, 7);
+	}
+
+	@Test
+	public void testShowManu ()
+	{
+		inventory.initializeConnection();
+		Order o = new Order("desk lamp, 1");
+		String manu = inventory.showManu(o);
+		System.out.println(manu);
+
+	}
+
+	@Test
+	public void testFindCheapestCombo ()
+	{
+		inventory.initializeConnection();
+		Order o = new Order("mesh chair, 1");
+		ArrayList<Furniture> combo = inventory.findCheapestCombo(o);
+		float sum = 0;
+		for (Furniture f : combo)
+		{
+			sum += f.getPrice();
+		}
+		assertEquals("Calculated min combo was incorrect", Math.round(sum), 200);
+	}
 
 	/*** FURNITURE CLASS TESTS ***/
+
+
 
 	/*** ReceiptPrinter CLASS TESTS ***/
 
