@@ -29,8 +29,8 @@ private String input;
     - String to store user input 
 private int counter = 1;
     - Counter for button clicks
-private String input1;
-private String input2;
+private String t;
+private String f;
 private String input3;
     - all three receive various input strings for the order
 private String regex = "[0-9]+";
@@ -39,20 +39,23 @@ public CountDownLatch loginSignal = new CountDownLatch(1);
     - Waits until order has been input before instantiating order object
 
 Methods:
-main()
-	* Accept a user-input argument which specifies a user input for 1) furniture category, 2) its type,
-    * and 3) the number of items requested.
-	* The argument should be in order stated above as three strings.
-    * EXAMPLE INPUTs:
-    * mesh chair, 1
-    * executive chair, 2
-    * Therefore, the category followed by a space then its type followed by a comma then a space and 
-    * finally the requested amount.
-	* If no argument is specified, it throws a custom exception, 
-    * OrderArugmentNotProvidedException. Additional arguments are ignored.
-public Input()
-public void actionPerformed(ActionEvent e)
-public String getInput()
+    -public static void main(String[] args) throws InterruptedException 
+        * Accept a user-input argument which specifies a user input for 1) furniture category, 2) its type,
+        * and 3) the number of items requested.
+        * The argument should be in order stated above as three strings.
+        * EXAMPLE INPUTs:
+        * mesh chair, 1
+        * executive chair, 2
+        * Therefore, the category followed by a space then its type followed by a comma then a space and 
+        * finally the requested amount.
+        * If no argument is specified, it throws a custom exception, 
+        * OrderArugmentNotProvidedException. Additional arguments are ignored.
+    -public Input()
+    -public void actionPerformed(ActionEvent e)
+    -public String getInput()
+    -public void orderFailed(String x)
+    -public void orderComplete(String x)
+
 */
 public class Input implements ActionListener{
 
@@ -125,10 +128,17 @@ public class Input implements ActionListener{
         frame.setVisible(true);
         frame.setSize(800, 800);
     }
+    /**
+     * Getter for the input (order) string
+     * @return input
+     */
     public String getInput(){
         return input.toString();
     }
 
+    /**Method that tracks user actions ie clicks on the buttons.
+     * @param e An ActionEvent such as a button click
+     */
     public void actionPerformed(ActionEvent e){
         in.setBounds(250,500,250,30);   // Sets position and size of TextField
         try{
@@ -184,6 +194,10 @@ public class Input implements ActionListener{
             
         } catch(Exception ex){System.out.println(ex);}
     }
+
+    /** Outputs order failed message and suggested manufacturers
+     * @param x String with manufacturer list
+     */
     public void orderFailed(String x){
         in.setBounds(0,0,0,0);
         l.setBounds(100,50,600,100);
@@ -194,6 +208,9 @@ public class Input implements ActionListener{
         exit.setBounds(300,450,130,30);
     }
 
+    /** Outputs order complete message 
+     * @param x Empty string
+     */
     public void orderComplete(String x){
         in.setBounds(0,0,0,0);
         l.setBounds(100,50,600,100);

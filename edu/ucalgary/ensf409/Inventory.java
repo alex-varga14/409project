@@ -23,6 +23,8 @@ private Connection dbConnect;
     -Connection instance to create a connection with the database
 private ResultSet results;
     -ResultSet instance to store results generated from SQL statements.
+private boolean comp = false;
+    -if order is completed, comp = true
 
 Methods:
     -public Inventory()
@@ -86,6 +88,11 @@ public class Inventory {
 	{
 		return this.PASSWORD;
 	}
+
+    /**
+     * Simple getter for the comp boolean
+     * @return comp
+     */
     public boolean getComp(){
         return this.comp;
     }
