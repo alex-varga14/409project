@@ -59,6 +59,7 @@ Methods:
 */
 public class Input implements ActionListener{
 
+    boolean status = false;
     JTextField in;
     JLabel l;      
     JButton b;     
@@ -100,9 +101,22 @@ public class Input implements ActionListener{
         frame.add(l); //Adds Label l to GUI
         frame.add(exit); //Adds button exit to GUI
         
+        //Enter feature
+        frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"click button");
+        frame.getRootPane().getActionMap().put("click button", new AbstractAction(){
+            public void actionPerformed(ActionEvent ae){
+                if(!status){ b.doClick(); }
+            // if((t == null && counter == 2 )|| (f == null && counter == 3 ) || (input3 == null && counter == 4 )){
+            //     counter = 5;
+            // }
+            }
+        });
+
+
         /*Useless feature as is, can be used potentially */
         JMenuBar bar = new JMenuBar();
         JMenu menu = new JMenu("Order Menu");
+        JMenu c = new JMenu("Chairs");
         menu.setMnemonic(KeyEvent.VK_O);
         
         ButtonGroup group = new ButtonGroup();
@@ -120,7 +134,6 @@ public class Input implements ActionListener{
         group.add(menuItem);
         menu.add(menuItem);
         //menuItem = new JRadioButtonMenuItem(new JMenu("Chair"));
-
 
         bar.add(menu);
         frame.setJMenuBar(bar);
@@ -218,6 +231,7 @@ public class Input implements ActionListener{
         b.setBounds(0,0,0,0);
         exit.setFont(new Font("Arial", Font.PLAIN, 25));
         exit.setBounds(300,450,130,30);
+        status = true;
     }
 
     public static void main(String[] args) throws InterruptedException { 

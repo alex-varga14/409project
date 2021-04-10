@@ -38,6 +38,14 @@ public class FinalProjectTest{
 
 	/*** INPUT CLASS TESTS ***/
 
+	@Test 
+	// Test input constructor
+	//
+	public void testInputCostructor(){
+		Input in = new Input();
+		in.input = "desk lamp, 1";
+		assertTrue("Input instance is not equal:", in.input.equals("desk lamp, 1"));
+	}
 
 	/*** ORDER CLASS TESTS ***/
 	@Test
