@@ -1,7 +1,6 @@
 package edu.ucalgary.ensf409;
 import static org.junit.Assert.*;
 import org.junit.*;
-
 import jdk.jfr.Timestamp;
 import java.math.*;
 import java.io.*;
@@ -10,12 +9,12 @@ import java.util.*;
 
 /**
  * @ ENSF409 FINAL PROJECT GROUP 40
- * @authors: Dominic Vandekerkhove, Alex Varga
+ * @authors: Dominic Vandekerkhove, Alex Varga and Ben Krett
  * @version 1.0
  * @since 1.0
  * 
  */
-/* 
+/* FinalProjectTest Class (Unit Testing)
 This class tests all the possible scenarios 
 */
 

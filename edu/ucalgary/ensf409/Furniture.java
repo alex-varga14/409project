@@ -26,6 +26,13 @@ private String ManuID;
     - string to store a furnitures manufacturer ID
 private EnumMap <Part, Boolean> partsList = new EnumMap<Part, Boolean>(Part.class);
     - an enum map that maps a part to a boolean value, so each part is either true (on furniture) or false
+
+Methods:
+    -public boolean hasPart (Part p)
+    -public String getID()
+    -public float getPrice ()
+    -public String getManuID()
+    -public Furniture (String furniture, String type, ResultSet r) throws SQLException
 */
 public class Furniture {
 
@@ -60,7 +67,7 @@ public class Furniture {
 
     /**
      * Simple getter for the price float
-     * @return DBURL
+     * @return Price
      */
     public float getPrice ()
     {

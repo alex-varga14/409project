@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*; 
 import java.util.concurrent.CountDownLatch; 
+import javax.imageio.ImageIO;
+import java.io.*;
 /**
  * @ ENSF409 FINAL PROJECT GROUP 40
  * @authors: Kenny Jeon, Alex Varga and Ben Krett
@@ -52,7 +54,170 @@ public Input()
 public void actionPerformed(ActionEvent e)
 public String getInput()
 */
+public class Input implements ActionListener{
 
+    JTextField in;
+    JLabel l;      
+    JButton b;     
+    JButton exit;  
+    private String input; 
+    private int counter = 1; 
+    private String t;
+    private String f;
+    private String input3;
+    private String regex = "[0-9]+";
+    public CountDownLatch loginSignal = new CountDownLatch(1);
+    public Input(){
+        JFrame frame = new JFrame("University of Calgary Supply Chain Management (SCM) Furniture Recycling Program");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocation(300,50);
+        try{
+            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("furniture.jpg")))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        in  = new JTextField();
+        in.setText("");
+        l = new JLabel("<html> Welcome to the Furniture Recycling Program:</html>", JLabel.CENTER); 
+        l.setForeground(Color.red);
+        l.setOpaque(true);
+        l.setFont(new Font("Arial", Font.BOLD, 25));
+        l.setBounds(100,50,600,50); // Sets position and size of Label
+        b = new JButton("Begin Order"); 
+        exit = new JButton("Exit");
+        exit.setForeground(Color.red);
+        exit.setFont(new Font("Arial", Font.PLAIN, 40));
+        b.setFont(new Font("Arial", Font.PLAIN, 20));
+        exit.setBounds(600,650,150,60);  // Sets position and size of Exit Button
+        b.setBounds(300,650,150,30); // Sets position and size of TextField
+        b.addActionListener(this);  // Adds ActionListener to the button
+        exit.addActionListener(this); // Adds ActionListener to the button
+        frame.add(b); //Adds button b to GUI
+        frame.add(in); //Adds TextField in to GUI
+        frame.add(l); //Adds Label l to GUI
+        frame.add(exit); //Adds button exit to GUI
+        
+        JMenuBar bar = new JMenuBar();
+        JMenu menu = new JMenu("Options");
+        menu.setMnemonic(KeyEvent.VK_O);
+        
+        ButtonGroup group = new ButtonGroup();
+        JRadioButtonMenuItem menuItem = new JRadioButtonMenuItem("A");
+        group.add(menuItem);
+        menu.add(menuItem);
+        menuItem = new JRadioButtonMenuItem("B");
+        group.add(menuItem);
+        menu.add(menuItem);
+        menuItem = new JRadioButtonMenuItem("C");
+        group.add(menuItem);
+        menu.add(menuItem);
+
+        bar.add(menu);
+        frame.setJMenuBar(bar);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setSize(800, 800);
+    }
+    public String getInput(){
+        return input.toString();
+    }
+
+    public void actionPerformed(ActionEvent e){
+        in.setBounds(250,500,250,30);   // Sets position and size of TextField
+        try{
+            if(counter == 1){
+                l.setText("Choose a furniture category:");
+                b.setText("Continue");
+                counter = 2;
+            } else if (counter == 2){
+                t = in.getText();
+                t = t.toLowerCase().strip();
+                if((t.strip().toLowerCase().equals("mesh")) || (t.strip().toLowerCase().equals("kneeling")) || 
+                (t.strip().toLowerCase().equals("task")) || (t.strip().toLowerCase().equals("executive")) || (t.strip().toLowerCase().equals("ergonomic")) ||
+                (t.strip().toLowerCase().equals("standing")) || (t.strip().toLowerCase().equals("traditional")) || (t.strip().toLowerCase().equals("adjustable") )
+                || (t.strip().toLowerCase().equals("desk")) || (t.strip().toLowerCase().equals("study")) || (t.strip().toLowerCase().equals("swing arm")) ||
+                (t.strip().toLowerCase().equals("small")) || (t.strip().toLowerCase().equals("medium")) || (t.strip().toLowerCase().equals("large"))){
+                input = t;
+                } else {
+                    counter = 5;
+                }
+                in.setText("");
+                l.setText("Now, choose a furniture type:");
+                counter = 3;
+            } else if (counter == 3){
+                f = in.getText();
+                f = f.toLowerCase().strip();
+                if( ((t.strip().toLowerCase().equals("desk")) && (!(f.strip().toLowerCase().equals("desk"))))|| 
+                ((!(t.strip().toLowerCase().equals("desk"))) && (f.strip().toLowerCase().equals("desk"))) ||
+                (f.strip().toLowerCase().equals("chair")) || (f.strip().toLowerCase().equals("lamp")) || 
+                (f.strip().toLowerCase().equals("filing"))){ 
+                    input += " " + f;
+                } else{
+                    counter = 5;
+                }
+                in.setText("");
+                l.setText("Finally, choose the amount:");
+                counter = 4;
+            } else if (counter == 4){
+                input3 = in.getText().strip();
+                if (input3.matches(regex)){
+                    input += ", " + input3;
+                } else{
+                    counter = 5;
+                }
+                in.setText("");
+                loginSignal.countDown();
+            } else if (counter == 5){
+                input = "";
+                l.setText("Invalid Order! Please Restart Order");
+                counter = 1;
+            } if(e.getSource() == exit){
+                System.exit(0);
+            }
+            
+        } catch(Exception ex){System.out.println(ex);}
+    }
+    public void orderFailed(String x){
+        in.setBounds(0,0,0,0);
+        l.setBounds(100,50,600,100);
+        l.setFont(new Font("Arial", Font.PLAIN, 15));
+        l.setText("<html> Order cannot be fulfilled based on current inventory. Manufacturers include: <br/>" + x+ "</html>");
+        b.setBounds(0,0,0,0);
+        exit.setFont(new Font("Arial", Font.PLAIN, 25));
+        exit.setBounds(300,450,130,30);
+    }
+
+    public void orderComplete(String x){
+        in.setBounds(0,0,0,0);
+        l.setBounds(100,50,600,100);
+        l.setText("Order Complete!");
+        b.setBounds(0,0,0,0);
+        exit.setFont(new Font("Arial", Font.PLAIN, 25));
+        exit.setBounds(300,450,130,30);
+    }
+
+    public static void main(String[] args) throws InterruptedException { 
+        Input input = new Input(); 
+        input.loginSignal.await();
+        Inventory inventory = new Inventory();
+        inventory.initializeConnection();
+        if (input.getInput() == null) {
+            throw new OrderArgumentInvalidException();
+        }
+        Order example = new Order(input.getInput());
+        String result = inventory.executeOrder(example);
+        if(inventory.getComp() == true){
+            input.orderComplete(result);
+        }
+        else {
+            input.orderFailed(result);
+        }
+
+    }
+
+
+}
+/*
 public class Input extends JFrame implements ActionListener {
     JTextField in; 
     JLabel l;      
@@ -66,6 +231,11 @@ public class Input extends JFrame implements ActionListener {
     private String regex = "[0-9]+";
     public CountDownLatch loginSignal = new CountDownLatch(1);
     public Input(){ // sets up GUI
+        // try{
+        //     setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("furniture.jpg")))));
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
         in = new JTextField();
         in.setText("");
         in.setBounds(300,300,150,20);   // Sets position and size of TextField
@@ -89,7 +259,6 @@ public class Input extends JFrame implements ActionListener {
     
     public void actionPerformed(ActionEvent e){ // Function that determines what the user should input based on the state of the counter
         try{
-            
             if(counter == 1){
                 input1 = in.getText();
                 input1 = input1.toLowerCase().strip();
@@ -102,16 +271,13 @@ public class Input extends JFrame implements ActionListener {
                 l.setText("Now Choose a furniture type:");
                 in.setText("");
                 counter = 2;
-                }
-            else{
+                } else{
                 l.setText("Incorrect input, press Enter to try again please");
                 in.setText("");
                 input = "";
                 counter = 4;
-                
-            }
-            }
-            else if (counter == 2){
+                }
+            } else if (counter == 2){
                 input2 = in.getText();
                 input2 = input2.toLowerCase().strip();
                 if (input1.compareTo("kneeling") == 0 && input2.compareTo("chair") == 0|| 
@@ -126,42 +292,38 @@ public class Input extends JFrame implements ActionListener {
                 l.setText("Finally, please request the amount of the specified item you want:");
                 in.setText("");
                 counter = 3;
-                }
-                else{
+                } else{
                     l.setText("Incorrect input, press Enter to try again please");
                     in.setText("");
                     counter = 4;
                 }
-            }
-            else if (counter == 3){
+            } else if (counter == 3){
                 input3 = in.getText().strip();
                 if (input3.matches(regex)){
                 input += ", " + input3;
                 l.setText("Order Complete!");
                 loginSignal.countDown();
-                }
-                else {
+                } else {
                     l.setText("Incorrect input, press Enter to try again please");
                     in.setText("");
                     counter = 4;
                 }
-            }
-            else if (counter == 4){
+            } else if (counter == 4){
                 input = "";
                 l.setText("Choose a furniture category");
                 in.setText("");
                 counter = 1;
-            }
-            if(e.getSource() == exit){
+            } if(e.getSource() == exit){
                 System.exit(0);
             }
         } catch(Exception ex){System.out.println(ex);}
     }
+
     public String getInput(){
         return input.toString();
     }
 
-    public static void main(String[] args) throws InterruptedException { //throws OrderArgumentNotProvidedException {
+    public static void main(String[] args) throws InterruptedException { 
         Input input = new Input(); 
         input.loginSignal.await();
         Inventory inventory = new Inventory();
@@ -173,7 +335,7 @@ public class Input extends JFrame implements ActionListener {
         String result = inventory.executeOrder(example);
         System.out.println(result);
     }
-}  
+}   */
 
 
 /*

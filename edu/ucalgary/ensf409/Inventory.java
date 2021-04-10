@@ -51,6 +51,7 @@ public class Inventory {
     public final String PASSWORD; 
 	private Connection dbConnect;
 	private ResultSet results;
+    public boolean comp = false;
     
     /** CONSTRUCTOR
      * Instantiates an Inventory instance with the corredt DBURL, Username and Password.
@@ -85,6 +86,9 @@ public class Inventory {
 	{
 		return this.PASSWORD;
 	}
+    public boolean getComp(){
+        return this.comp;
+    }
 
     /*
 	This method create a conneciton between the database and a Connection Object so that it can be accessed.
@@ -105,13 +109,14 @@ public class Inventory {
      * @return mes String.
      */
     public String executeOrder (Order o){
-        StringBuilder mes = new StringBuilder();
+        StringBuilder mes = new StringBuilder("");
         ArrayList<Furniture> orderList = findCheapestCombo(o);
         if (orderList.size() == 0){ // empty list indicates no combo was found
            mes.append(showManu(o));
         }
         else {
             float price = 0;
+            comp = true;
             for (Furniture f : orderList) {
                 System.out.println(String.format("ID: %s", f.getID()));
                 deleteInventoryItem(o.getFurniture(), f.getID());
@@ -135,7 +140,7 @@ public class Inventory {
 		try {
 			Statement myStmt = dbConnect.createStatement();
 			results = myStmt.executeQuery("SELECT * FROM " + p.getFurniture().toUpperCase());
-            listofManus.append("Order cannot be fulfilled based on current inventory. Suggested manufacturers include: \n");
+            //listofManus.append("Order cannot be fulfilled based on current inventory. Suggested manufacturers include: \n");
 			while(results.next()){
                 tmp.add(results.getString("ManuID"));
 			}
