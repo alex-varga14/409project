@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 import java.io.*;
 /**
  * @ ENSF409 FINAL PROJECT GROUP 40
- * @authors: Kenny Jeon, Alex Varga and Ben Krett
+ * @authors: Kenny Jeon, Alex Varga, Dominic Vandekerkhove and Ben Krett
  * @version 1.3
  * @since 1.0
  * 
@@ -90,6 +90,7 @@ public class Input implements ActionListener{
         exit.setForeground(Color.red);
         exit.setFont(new Font("Arial", Font.PLAIN, 40));
         b.setFont(new Font("Arial", Font.PLAIN, 20));
+		r.setFont(new Font("Arial", Font.PLAIN, 20));
         exit.setBounds(600,650,150,60);  // Sets position and size of Exit Button
         b.setBounds(300,650,150,30); // Sets position and size of TextField
         b.addActionListener(this);  // Adds ActionListener to the button
@@ -166,6 +167,7 @@ public class Input implements ActionListener{
                 || (t.strip().toLowerCase().equals("desk")) || (t.strip().toLowerCase().equals("study")) || (t.strip().toLowerCase().equals("swing arm")) ||
                 (t.strip().toLowerCase().equals("small")) || (t.strip().toLowerCase().equals("medium")) || (t.strip().toLowerCase().equals("large"))){
 					input = t;
+					
 					in.setText("");
 					l.setText("Now, choose a furniture type:");
 					counter = 3;
@@ -180,7 +182,8 @@ public class Input implements ActionListener{
                 ((!(t.strip().toLowerCase().equals("desk"))) && (f.strip().toLowerCase().equals("desk"))) ||
                 (f.strip().toLowerCase().equals("chair")) || (f.strip().toLowerCase().equals("lamp")) || 
                 (f.strip().toLowerCase().equals("filing"))){ 
-                    input += " " + f;
+					input += " " + f;
+					
 					in.setText("");
 					l.setText("Finally, choose the amount:");
 					counter = 4;
