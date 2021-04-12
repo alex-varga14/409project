@@ -214,37 +214,27 @@ public class Inventory {
         for(int i = 0; i < l.size(); i++){
             if(l.get(i).equals("001")){
                 one = true;
-            }
-            if(l.get(i).equals("002")){
+            } if(l.get(i).equals("002")){
                 two = true;
-            }
-            if(l.get(i).equals("003")){
+            } if(l.get(i).equals("003")){
                 three = true;
-            }
-            if(l.get(i).equals("004")){
+            } if(l.get(i).equals("004")){
                 four = true;
-            }
-            if(l.get(i).equals("005")){
+            } if(l.get(i).equals("005")){
                 five = true;
             }
-        }
-        if(one == true){
+        } if(one == true){
             tmp.add("001");
-        }
-        if(two == true){
+        } if(two == true){
             tmp.add("002");
-        }
-        if(three == true){
+        } if(three == true){
             tmp.add("003");
-        }
-        if(four == true){
+        } if(four == true){
             tmp.add("004");
-        }
-        if(five == true){
+        } if(five == true){
             tmp.add("005");
         }
         return tmp;
-
     }
 
     /**

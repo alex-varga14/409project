@@ -24,17 +24,6 @@ public class FinalProjectTest{
 	}
 
 	public final static Inventory inventory = new Inventory();
-	
-
-
-	// public Inventory inventory;
-	// @Before
-	// public void setUp(){
-	// 	inventory = new Inventory();
-	// 	inventory.initializeConnection();
-	// }
-
-
 
 	/*** INPUT CLASS TESTS ***/
 
@@ -65,13 +54,6 @@ public class FinalProjectTest{
 		order.equals(testOrder.getType() + " " + testOrder.getFurniture() + " " + testOrder.getAmount()));
 	}
 
-	//@TEST
-	//
-	//
-	//
-	
-
-
 
 
 	/*** INVENTORY CLASS TESTS ***/
@@ -90,6 +72,15 @@ public class FinalProjectTest{
 		Order o = new Order("mosh chair, 1");
 		ArrayList<Furniture> combo = inventory.findCheapestCombo(o);
 		assertEquals("DB Access did not fail correctly on incorrect order", 0, combo.size());
+	}
+
+	@Test 
+	//Test invalid order amount, expect
+	public void testInvalidOrderAmount(){
+		inventory.initializeConnection();
+		Order o = new Order("mesh chair, 0");
+		ArrayList<Furniture> combo = inventory.findCheapestCombo(o);
+		assertEquals("DB Access did not fail correctly on incorrect order with invalid amount", 0, combo.size());
 	}
 
 	@Test
@@ -156,10 +147,6 @@ public class FinalProjectTest{
 		assertEquals("The sorted and claned array did not match", test, fin );
 	}
 
-	/*** FURNITURE CLASS TESTS ***/
-
-
-
 	/*** ReceiptPrinter CLASS TESTS ***/
 
 	@Test
@@ -210,16 +197,9 @@ public class FinalProjectTest{
 		assertEquals(shouldBe, test.getReceipt());
 	}
 
-
-
-
-
-
-
 	/*
 	*  Utility methods to perform common routines
 	*/
-
 
 	public ArrayList<String> cleanList(ArrayList<String> l){
         ArrayList<String> tmp = new ArrayList<String>();
@@ -252,7 +232,6 @@ public class FinalProjectTest{
             tmp.add("005");
         }
         return tmp;
-
     }
 
 }
