@@ -55,6 +55,7 @@ Methods:
     -public String getInput()
     -public void orderFailed(String x)
     -public void orderComplete(String x)
+    -public void setInput(String x)
 
 */
 public class Input implements ActionListener{
@@ -149,6 +150,14 @@ public class Input implements ActionListener{
         return input.toString();
     }
 
+    /**
+     * Setter for setting input for testing
+     * @param x String to set input
+     */
+    public void setInput(String x){
+        this.input = x;
+    }
+
     /**Method that tracks user actions ie clicks on the buttons.
      * @param e An ActionEvent such as a button click
      */
@@ -233,6 +242,8 @@ public class Input implements ActionListener{
         exit.setBounds(300,450,130,30);
         status = true;
     }
+
+
 
     public static void main(String[] args) throws InterruptedException { 
         Input input = new Input(); 
