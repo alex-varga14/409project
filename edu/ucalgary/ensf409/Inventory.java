@@ -60,8 +60,10 @@ public class Inventory {
      */
     public Inventory(){
     this.DBURL = "jdbc:mysql://localhost/inventory";
-    this.USERNAME = "alexcode";
-    this.PASSWORD = "glorycode";
+    //this.USERNAME = "alexcode";
+    //this.PASSWORD = "glorycode";
+    this.USERNAME = "ben";
+    this.PASSWORD = "bbbb";
     }
 
     /**
@@ -121,6 +123,7 @@ public class Inventory {
         if (orderList.size() == 0){ // empty list indicates no combo was found
            mes.append(showManu(o));
         }
+        
         else {
             float price = 0;
             comp = true;
@@ -133,6 +136,7 @@ public class Inventory {
             ReceiptPrinter newReceipt = new ReceiptPrinter(
                 o.getType() + " " + o.getFurniture() + ", " + String.valueOf(o.getAmount()), orderList, price);
         }
+        EnumMap<Furniture.Part, Integer> a = excessFurnitureParts(orderList, o);
         return new String(mes);
     }
 
@@ -260,6 +264,59 @@ public class Inventory {
             }
         }
         return orderList;
+    }
+
+    /**
+     * Given an order, and a list of Furniture that fills it, calculates how many excess of each part
+     * there will be after all the furniture in the order have been assembled from parts. Assumes that
+     * the furniture list does successfully fill order
+     * @param fList list of furniture used to fill the order
+     * @param o order to be filled
+     * @return map between part type, and count of excess
+     */
+
+    public EnumMap<Furniture.Part, Integer> excessFurnitureParts (ArrayList<Furniture> fList, Order o)
+    {
+        EnumMap <Furniture.Part, Integer> map = new EnumMap<Furniture.Part, Integer>(Furniture.Part.class);
+
+        switch (o.getFurniture().toUpperCase())
+        {
+            case "CHAIR":
+                map.put(Furniture.Part.Legs, -o.getAmount());
+                map.put(Furniture.Part.Arms, -o.getAmount());
+                map.put(Furniture.Part.Seat, -o.getAmount());
+                map.put(Furniture.Part.Cushion, -o.getAmount());
+            case "DESK":
+                map.put(Furniture.Part.Legs, -o.getAmount());
+                map.put(Furniture.Part.Top, -o.getAmount());
+                map.put(Furniture.Part.Drawer, -o.getAmount());
+            case "FILING":
+                map.put(Furniture.Part.Rails, -o.getAmount());
+                map.put(Furniture.Part.Drawers, -o.getAmount());
+                map.put(Furniture.Part.Cabinet, -o.getAmount());
+            case "LAMP":
+                map.put(Furniture.Part.Base, -o.getAmount()) ;
+                map.put(Furniture.Part.Bulb, -o.getAmount());     
+        }
+        for (Furniture f : fList)
+        {
+            for (Furniture.Part p : Furniture.Part.values())
+            {
+                if (f.hasPart(p))
+                {
+                    map.put(p, map.get(p) + 1);
+                }
+            }
+        }
+        for (Furniture.Part p : Furniture.Part.values())
+            {
+                if (fList.get(2).hasPart(p))
+                {
+                    System.out.println(p.toString() + " " + map.get(p));
+                }
+            }
+
+        return map;
     }
 
     /**
