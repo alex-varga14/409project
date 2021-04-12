@@ -4,7 +4,7 @@ import java.util.*;
 /**
  * @ ENSF409 FINAL PROJECT GROUP 40
  * @authors: Alex Varga and Ben Krett
- * @version 1.2
+ * @version 1.3
  * @since 1.0
  * 
  */
@@ -44,6 +44,7 @@ Methods:
     -public String getDburl()
     -public String getUsername()
     -public String getPassword()
+    -public EnumMap<Furniture.Part, Integer> excessFurnitureParts (ArrayList<Furniture> fList, Order o)
 */
 
 public class Inventory {

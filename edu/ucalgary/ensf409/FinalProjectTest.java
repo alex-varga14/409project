@@ -10,7 +10,7 @@ import java.util.*;
 /**
  * @ ENSF409 FINAL PROJECT GROUP 40
  * @authors: Dominic Vandekerkhove, Alex Varga and Ben Krett
- * @version 1.0
+ * @version 1.1
  * @since 1.0
  * 
  */
@@ -38,14 +38,15 @@ public class FinalProjectTest{
 
 	/*** INPUT CLASS TESTS ***/
 
-	// @Test 
-	// // Test input constructor
-	// //
-	// public void testInputCostructor(){
-	// 	Input in = new Input();
-	// 	in.input = "desk lamp, 1";
-	// 	assertTrue("Input instance is not equal:", in.input.equals("desk lamp, 1"));
-	// }
+	@Test 
+	// Test input constructor
+	// tests to see if input correctly forms the order
+	public void testInputConstructor(){
+		Input in = new Input();
+		in.setInput("desk lamp, 1");
+		Order e = new Order(in.getInput());
+		assertTrue("Input instance is not equal:", in.getInput().equals(e.getType() + " " + e.getFurniture() + ", " + e.getAmount()));
+	} 
 
 	/*** ORDER CLASS TESTS ***/
 	@Test
@@ -142,6 +143,19 @@ public class FinalProjectTest{
 		assertEquals("Calculated min combo was incorrect", Math.round(sum), 200);
 	}
 
+	@Test
+	public void testCleanList()
+	{
+		ArrayList<String> fin = new ArrayList<String>();
+		fin.add("001"); fin.add("002"); fin.add("003"); fin.add("004"); fin.add("005");
+		ArrayList<String> test = new ArrayList<String>();
+		test.add("003"); test.add("001"); test.add("001"); test.add("002"); test.add("003");
+		test.add("004"); test.add("002"); test.add("004"); test.add("005");
+		Collections.sort(test);
+		test = cleanList(test);
+		assertEquals("The sorted and claned array did not match", test, fin );
+	}
+
 	/*** FURNITURE CLASS TESTS ***/
 
 
@@ -195,5 +209,50 @@ public class FinalProjectTest{
 		
 		assertEquals(shouldBe, test.getReceipt());
 	}
+
+
+
+
+
+
+
+	/*
+	*  Utility methods to perform common routines
+	*/
+
+
+	public ArrayList<String> cleanList(ArrayList<String> l){
+        ArrayList<String> tmp = new ArrayList<String>();
+        boolean one = false;
+        boolean two = false;
+        boolean three = false;
+        boolean four = false;
+        boolean five = false;
+        for(int i = 0; i < l.size(); i++){
+            if(l.get(i).equals("001")){
+                one = true;
+            } if(l.get(i).equals("002")){
+                two = true;
+            } if(l.get(i).equals("003")){
+                three = true;
+            } if(l.get(i).equals("004")){
+                four = true;
+            } if(l.get(i).equals("005")){
+                five = true;
+            }
+        } if(one == true){
+            tmp.add("001");
+        } if(two == true){
+            tmp.add("002");
+        } if(three == true){
+            tmp.add("003");
+        } if(four == true){
+            tmp.add("004");
+        } if(five == true){
+            tmp.add("005");
+        }
+        return tmp;
+
+    }
 
 }
