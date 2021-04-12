@@ -308,14 +308,7 @@ public class Inventory {
                 }
             }
         }
-        for (Furniture.Part p : Furniture.Part.values())
-            {
-                if (fList.get(2).hasPart(p))
-                {
-                    System.out.println(p.toString() + " " + map.get(p));
-                }
-            }
-
+ 
         return map;
     }
 
