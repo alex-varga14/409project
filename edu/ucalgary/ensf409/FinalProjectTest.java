@@ -38,14 +38,14 @@ public class FinalProjectTest{
 
 	/*** INPUT CLASS TESTS ***/
 
-	@Test 
-	// Test input constructor
-	//
-	public void testInputCostructor(){
-		Input in = new Input();
-		in.input = "desk lamp, 1";
-		assertTrue("Input instance is not equal:", in.input.equals("desk lamp, 1"));
-	}
+	// @Test 
+	// // Test input constructor
+	// //
+	// public void testInputCostructor(){
+	// 	Input in = new Input();
+	// 	in.input = "desk lamp, 1";
+	// 	assertTrue("Input instance is not equal:", in.input.equals("desk lamp, 1"));
+	// }
 
 	/*** ORDER CLASS TESTS ***/
 	@Test
@@ -83,13 +83,49 @@ public class FinalProjectTest{
 	}
 
 	@Test
+	public void testInvalidOrderDBAccess ()
+	{
+		inventory.initializeConnection();
+		Order o = new Order("mosh chair, 1");
+		ArrayList<Furniture> combo = inventory.findCheapestCombo(o);
+		assertEquals("DB Access did not fail correctly on incorrect order", 0, combo.size());
+	}
+
+	@Test
+	public void testUnfillableOrderResponse ()
+	{
+		inventory.initializeConnection();
+		Order o = new Order("mesh chair, 30");
+		ArrayList<Furniture> combo = inventory.findCheapestCombo(o);
+		assertEquals("Order could not be filled but non-empty list was returned", 0, combo.size());
+	}
+
+	@Test
+	public void testExcessCounter ()
+	{
+		inventory.initializeConnection();
+		Order o = new Order("executive chair, 1");
+		ArrayList<Furniture> combo = inventory.findCheapestCombo(o);
+		EnumMap<Furniture.Part, Integer> excess = inventory.excessFurnitureParts(combo, o);
+		assertEquals("Incorrect number of excess parts caculated", 1, excess.get(Furniture.Part.Legs).intValue());
+	}
+
+	@Test
+	public void testGetAvailableFurniture ()
+	{
+		inventory.initializeConnection();
+		Order o = new Order("desk lamp, 1");
+		ArrayList<Furniture> combo = inventory.getAvailableFurniture(o.getType(), o.getFurniture());
+		assertEquals("Wrong count of available furniture", 7, combo.size());
+	}
+
+	@Test
 	public void testShowManu ()
 	{
 		inventory.initializeConnection();
 		Order o = new Order("desk lamp, 1");
 		String manu = inventory.showManu(o);
 		System.out.println(manu);
-
 	}
 
 	@Test
