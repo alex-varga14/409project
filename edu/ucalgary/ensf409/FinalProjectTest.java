@@ -10,7 +10,7 @@ import java.util.*;
 /**
  * @ ENSF409 FINAL PROJECT GROUP 40
  * @authors: Dominic Vandekerkhove, Alex Varga and Ben Krett
- * @version 1.0
+ * @version 1.1
  * @since 1.0
  * 
  */
@@ -24,28 +24,33 @@ public class FinalProjectTest{
 	}
 
 	public final static Inventory inventory = new Inventory();
-	
-
-
-	// public Inventory inventory;
-	// @Before
-	// public void setUp(){
-	// 	inventory = new Inventory();
-	// 	inventory.initializeConnection();
-	// }
-
-
 
 	/*** INPUT CLASS TESTS ***/
 
 	@Test 
 	// Test input constructor
-	//
-	public void testInputCostructor(){
+	// tests to see if input correctly forms the order
+	public void testInputConstructor(){
 		Input in = new Input();
-		in.input = "desk lamp, 1";
-		assertTrue("Input instance is not equal:", in.input.equals("desk lamp, 1"));
+		in.setInput("desk lamp, 1");
+		Order e = new Order(in.getInput());
+		assertTrue("Input instance is not equal:", in.getInput().equals(e.getType() + " " + e.getFurniture() + ", " + e.getAmount()));
+	} 
+	
+	@Test
+	// Test invalid argument for Input
+	public void testInvalidInput(){
+		boolean exceptionThrown = false;
+		try{
+			Input in = new Input();
+			in.setInput("Invalid");
+			Order o = new Order(in.getInput());
+		} catch(IllegalStateException e){
+			exceptionThrown = true;
+		}
+		assertTrue("Exception was not thrown", exceptionThrown);
 	}
+	
 
 	/*** ORDER CLASS TESTS ***/
 	@Test
@@ -64,13 +69,6 @@ public class FinalProjectTest{
 		order.equals(testOrder.getType() + " " + testOrder.getFurniture() + " " + testOrder.getAmount()));
 	}
 
-	//@TEST
-	//
-	//
-	//
-	
-
-
 
 
 	/*** INVENTORY CLASS TESTS ***/
@@ -83,13 +81,58 @@ public class FinalProjectTest{
 	}
 
 	@Test
+	public void testInvalidOrderDBAccess ()
+	{
+		inventory.initializeConnection();
+		Order o = new Order("mosh chair, 1");
+		ArrayList<Furniture> combo = inventory.findCheapestCombo(o);
+		assertEquals("DB Access did not fail correctly on incorrect order", 0, combo.size());
+	}
+
+	@Test 
+	//Test invalid order amount, expect
+	public void testInvalidOrderAmount(){
+		inventory.initializeConnection();
+		Order o = new Order("mesh chair, 0");
+		ArrayList<Furniture> combo = inventory.findCheapestCombo(o);
+		assertEquals("DB Access did not fail correctly on incorrect order with invalid amount", 0, combo.size());
+	}
+
+	@Test
+	public void testUnfillableOrderResponse ()
+	{
+		inventory.initializeConnection();
+		Order o = new Order("mesh chair, 30");
+		ArrayList<Furniture> combo = inventory.findCheapestCombo(o);
+		assertEquals("Order could not be filled but non-empty list was returned", 0, combo.size());
+	}
+
+	@Test
+	public void testExcessCounter ()
+	{
+		inventory.initializeConnection();
+		Order o = new Order("executive chair, 1");
+		ArrayList<Furniture> combo = inventory.findCheapestCombo(o);
+		EnumMap<Furniture.Part, Integer> excess = inventory.excessFurnitureParts(combo, o);
+		assertEquals("Incorrect number of excess parts caculated", 1, excess.get(Furniture.Part.Legs).intValue());
+	}
+
+	@Test
+	public void testGetAvailableFurniture ()
+	{
+		inventory.initializeConnection();
+		Order o = new Order("desk lamp, 1");
+		ArrayList<Furniture> combo = inventory.getAvailableFurniture(o.getType(), o.getFurniture());
+		assertEquals("Wrong count of available furniture", 7, combo.size());
+	}
+
+	@Test
 	public void testShowManu ()
 	{
 		inventory.initializeConnection();
 		Order o = new Order("desk lamp, 1");
 		String manu = inventory.showManu(o);
 		System.out.println(manu);
-
 	}
 
 	@Test
@@ -106,9 +149,18 @@ public class FinalProjectTest{
 		assertEquals("Calculated min combo was incorrect", Math.round(sum), 200);
 	}
 
-	/*** FURNITURE CLASS TESTS ***/
-
-
+	@Test
+	public void testCleanList()
+	{
+		ArrayList<String> fin = new ArrayList<String>();
+		fin.add("001"); fin.add("002"); fin.add("003"); fin.add("004"); fin.add("005");
+		ArrayList<String> test = new ArrayList<String>();
+		test.add("003"); test.add("001"); test.add("001"); test.add("002"); test.add("003");
+		test.add("004"); test.add("002"); test.add("004"); test.add("005");
+		Collections.sort(test);
+		test = cleanList(test);
+		assertEquals("The sorted and claned array did not match", test, fin );
+	}
 
 	/*** ReceiptPrinter CLASS TESTS ***/
 
@@ -159,5 +211,42 @@ public class FinalProjectTest{
 		
 		assertEquals(shouldBe, test.getReceipt());
 	}
+
+	/*
+	*  Utility methods to perform common routines
+	*/
+
+	public ArrayList<String> cleanList(ArrayList<String> l){
+        ArrayList<String> tmp = new ArrayList<String>();
+        boolean one = false;
+        boolean two = false;
+        boolean three = false;
+        boolean four = false;
+        boolean five = false;
+        for(int i = 0; i < l.size(); i++){
+            if(l.get(i).equals("001")){
+                one = true;
+            } if(l.get(i).equals("002")){
+                two = true;
+            } if(l.get(i).equals("003")){
+                three = true;
+            } if(l.get(i).equals("004")){
+                four = true;
+            } if(l.get(i).equals("005")){
+                five = true;
+            }
+        } if(one == true){
+            tmp.add("001");
+        } if(two == true){
+            tmp.add("002");
+        } if(three == true){
+            tmp.add("003");
+        } if(four == true){
+            tmp.add("004");
+        } if(five == true){
+            tmp.add("005");
+        }
+        return tmp;
+    }
 
 }
