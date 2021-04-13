@@ -15,7 +15,7 @@ import java.util.*;
  * 
  */
 /* FinalProjectTest Class (Unit Testing)
-This class tests all the possible scenarios 
+This class tests all methods in the Input, Inventory, Order, Furniture and ReceiptPrinter classes 
 */
 
 public class FinalProjectTest{
@@ -72,6 +72,8 @@ public class FinalProjectTest{
 
 
 	/*** INVENTORY CLASS TESTS ***/
+	// tests the inventory constructor
+	// tests getAvailableFurniture 
 	@Test
 	public void testInventoryContructorAndDBAccess ()
 	{
@@ -81,6 +83,7 @@ public class FinalProjectTest{
 	}
 
 	@Test
+	//tests an invalid order 
 	public void testInvalidOrderDBAccess ()
 	{
 		inventory.initializeConnection();
@@ -99,6 +102,7 @@ public class FinalProjectTest{
 	}
 
 	@Test
+	// tests an order that cannot be filled
 	public void testUnfillableOrderResponse ()
 	{
 		inventory.initializeConnection();
@@ -108,6 +112,7 @@ public class FinalProjectTest{
 	}
 
 	@Test
+	// tests the excessFurnitureParts method
 	public void testExcessCounter ()
 	{
 		inventory.initializeConnection();
@@ -118,6 +123,7 @@ public class FinalProjectTest{
 	}
 
 	@Test
+	//tests getAvailableFurniture method
 	public void testGetAvailableFurniture ()
 	{
 		inventory.initializeConnection();
@@ -127,6 +133,7 @@ public class FinalProjectTest{
 	}
 
 	@Test
+	// tests showManu method
 	public void testShowManu ()
 	{
 		inventory.initializeConnection();
@@ -136,6 +143,7 @@ public class FinalProjectTest{
 	}
 
 	@Test
+	// tests findCheapestCombo method
 	public void testFindCheapestCombo ()
 	{
 		inventory.initializeConnection();
@@ -150,6 +158,7 @@ public class FinalProjectTest{
 	}
 
 	@Test
+	// tests the cleanList method
 	public void testCleanList()
 	{
 		ArrayList<String> fin = new ArrayList<String>();
@@ -165,6 +174,8 @@ public class FinalProjectTest{
 	/*** ReceiptPrinter CLASS TESTS ***/
 
 	@Test
+	//tests the ReceiptPrinter constructor
+	// tests the getorigRequest method
 	public void testReceiptPrinterConstructorAndGetOrigRequest(){
 		inventory.initializeConnection();
 		Order o = new Order("mesh chair, 1");
@@ -174,6 +185,7 @@ public class FinalProjectTest{
 	}
 	
 	@Test
+	// test the getItems method
 	public void testReceiptPrinterGetList(){
 		Order o = new Order("mesh chair, 1");
 		ArrayList<Furniture> list = inventory.findCheapestCombo(o);
@@ -182,6 +194,7 @@ public class FinalProjectTest{
 	}
 	
 	@Test
+	// tests the getPrice method
 	public void testReceiptPrinterGetPrice(){
 		Order o = new Order("mesh chair, 1");
 		inventory.initializeConnection();
@@ -191,6 +204,7 @@ public class FinalProjectTest{
 	}
 	
 	@Test 
+	// tests the formatReceipt method
 	public void testReceiptPrinterFormatReceipt(){
 		Order o = new Order("mesh chair, 1");
 		ArrayList<Furniture> list = inventory.findCheapestCombo(o);
