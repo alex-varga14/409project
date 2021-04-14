@@ -15,7 +15,7 @@ import java.util.*;
  * 
  */
 /* FinalProjectTest Class (Unit Testing)
-This class tests all the possible scenarios 
+This class tests all methods in the Input, Inventory, Order, Furniture and ReceiptPrinter classes 
 */
 
 public class FinalProjectTest{
@@ -36,6 +36,20 @@ public class FinalProjectTest{
 		Order e = new Order(in.getInput());
 		assertTrue("Input instance is not equal:", in.getInput().equals(e.getType() + " " + e.getFurniture() + ", " + e.getAmount()));
 	} 
+
+	@Test
+	// Test invalid argument for Input
+	public void testInvalidInput(){
+		boolean exceptionThrown = false;
+		try{
+			Input in = new Input();
+			in.setInput("Invalid");
+			Order o = new Order(in.getInput());
+		} catch(IllegalStateException e){
+			exceptionThrown = true;
+		}
+		assertTrue("Exception was not thrown", exceptionThrown);
+	}
 
 	/*** ORDER CLASS TESTS ***/
 	@Test
@@ -58,6 +72,8 @@ public class FinalProjectTest{
 
 	/*** INVENTORY CLASS TESTS ***/
 	@Test
+	//tests the inventory constructor
+	//tests getAvailableFurniture
 	public void testInventoryContructorAndDBAccess ()
 	{
 		inventory.initializeConnection();
@@ -66,6 +82,7 @@ public class FinalProjectTest{
 	}
 
 	@Test
+	//tests an invalid order 
 	public void testInvalidOrderDBAccess ()
 	{
 		inventory.initializeConnection();
@@ -84,6 +101,7 @@ public class FinalProjectTest{
 	}
 
 	@Test
+	//tests an order that cannot be filled
 	public void testUnfillableOrderResponse ()
 	{
 		inventory.initializeConnection();
@@ -93,6 +111,7 @@ public class FinalProjectTest{
 	}
 
 	@Test
+	//tests the excesssFurnitureParts Method
 	public void testExcessCounter ()
 	{
 		inventory.initializeConnection();
@@ -103,6 +122,7 @@ public class FinalProjectTest{
 	}
 
 	@Test
+	//tests getAvailable furniture
 	public void testGetAvailableFurniture ()
 	{
 		inventory.initializeConnection();
@@ -112,6 +132,7 @@ public class FinalProjectTest{
 	}
 
 	@Test
+	//tests showManu method
 	public void testShowManu ()
 	{
 		inventory.initializeConnection();
@@ -121,6 +142,7 @@ public class FinalProjectTest{
 	}
 
 	@Test
+	//tests findCheapestCombo method
 	public void testFindCheapestCombo ()
 	{
 		inventory.initializeConnection();
@@ -135,6 +157,7 @@ public class FinalProjectTest{
 	}
 
 	@Test
+	//tests cleanList method
 	public void testCleanList()
 	{
 		ArrayList<String> fin = new ArrayList<String>();
@@ -150,6 +173,8 @@ public class FinalProjectTest{
 	/*** ReceiptPrinter CLASS TESTS ***/
 
 	@Test
+	//tests the ReceiptPrinter constructor
+	//tests the getOrigRequest method
 	public void testReceiptPrinterConstructorAndGetOrigRequest(){
 		inventory.initializeConnection();
 		Order o = new Order("mesh chair, 1");
@@ -159,6 +184,7 @@ public class FinalProjectTest{
 	}
 	
 	@Test
+	//tests getitems method
 	public void testReceiptPrinterGetList(){
 		Order o = new Order("mesh chair, 1");
 		ArrayList<Furniture> list = inventory.findCheapestCombo(o);
@@ -167,6 +193,7 @@ public class FinalProjectTest{
 	}
 	
 	@Test
+	//tests the getPrice method
 	public void testReceiptPrinterGetPrice(){
 		Order o = new Order("mesh chair, 1");
 		inventory.initializeConnection();
@@ -176,6 +203,7 @@ public class FinalProjectTest{
 	}
 	
 	@Test 
+	//tests the formatReceipt method
 	public void testReceiptPrinterFormatReceipt(){
 		Order o = new Order("mesh chair, 1");
 		ArrayList<Furniture> list = inventory.findCheapestCombo(o);

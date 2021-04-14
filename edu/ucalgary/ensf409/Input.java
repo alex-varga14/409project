@@ -176,13 +176,15 @@ public class Input implements ActionListener{
                 (t.strip().toLowerCase().equals("standing")) || (t.strip().toLowerCase().equals("traditional")) || (t.strip().toLowerCase().equals("adjustable") )
                 || (t.strip().toLowerCase().equals("desk")) || (t.strip().toLowerCase().equals("study")) || (t.strip().toLowerCase().equals("swing arm")) ||
                 (t.strip().toLowerCase().equals("small")) || (t.strip().toLowerCase().equals("medium")) || (t.strip().toLowerCase().equals("large"))){
-                input = t;
-                } else {
+					input = t;
+
+					in.setText("");
+					l.setText("Now, choose a furniture type:");
+					counter = 3;
+				} else {
                     counter = 5;
                 }
-                in.setText("");
-                l.setText("Now, choose a furniture type:");
-                counter = 3;
+
             } else if (counter == 3){
                 f = in.getText();
                 f = f.toLowerCase().strip();
@@ -190,13 +192,14 @@ public class Input implements ActionListener{
                 ((!(t.strip().toLowerCase().equals("desk"))) && (f.strip().toLowerCase().equals("desk"))) ||
                 (f.strip().toLowerCase().equals("chair")) || (f.strip().toLowerCase().equals("lamp")) || 
                 (f.strip().toLowerCase().equals("filing"))){ 
-                    input += " " + f;
-                } else{
+					input += " " + f;
+
+					in.setText("");
+					l.setText("Finally, choose the amount:");
+					counter = 4;
+				} else{
                     counter = 5;
                 }
-                in.setText("");
-                l.setText("Finally, choose the amount:");
-                counter = 4;
             } else if (counter == 4){
                 input3 = in.getText().strip();
                 if (input3.matches(regex)){
@@ -206,14 +209,14 @@ public class Input implements ActionListener{
                 }
                 in.setText("");
                 loginSignal.countDown();
-            } else if (counter == 5){
+            } if (counter == 5){
                 input = "";
                 l.setText("Invalid Order! Please Restart Order");
                 counter = 1;
             } if(e.getSource() == exit){
                 System.exit(0);
             }
-            
+
         } catch(Exception ex){System.out.println(ex);}
     }
 
