@@ -92,6 +92,26 @@ public class FinalProjectTest{
 		assertEquals("DB Access did not fail correctly on incorrect order", 0, combo.size());
 	}
 
+	@Test
+	//tests an invalid order 
+	public void testInvalidOrderDBAccess2 ()
+	{
+		inventory.initializeConnection();
+		Order o = new Order("mesh choir, 1");
+		ArrayList<Furniture> combo = inventory.findCheapestCombo(o);
+		assertEquals("DB Access did not fail correctly on incorrect order", 0, combo.size());
+	}
+
+	@Test
+	//tests an invalid order 
+	public void testInvalidOrderDBAccess3 ()
+	{
+		inventory.initializeConnection();
+		Order o = new Order("desk desk, 1");
+		ArrayList<Furniture> combo = inventory.findCheapestCombo(o);
+		assertEquals("DB Access did not fail correctly on incorrect order", 0, combo.size());
+	}
+
 	@Test 
 	//Test invalid order amount, expect
 	public void testInvalidOrderAmount(){
