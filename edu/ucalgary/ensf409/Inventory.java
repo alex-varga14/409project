@@ -61,8 +61,8 @@ public class Inventory {
      */
     public Inventory(){
     this.DBURL = "jdbc:mysql://localhost/inventory";
-    this.USERNAME = "Ken";
-    this.PASSWORD = "ensf409";
+    this.USERNAME = "alexcode";
+    this.PASSWORD = "glorycode";
     }
 
     /**
