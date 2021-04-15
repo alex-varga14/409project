@@ -8,7 +8,8 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
- * @ ENSF409 FINAL PROJECT GROUP 40
+ * @ENSF409 FINAL PROJECT GROUP 40
+ * @team members: Alex Varga, Ben Krett, Domninic Vanderkerkhove, and Kenny Jeon
  * @authors: Dominic Vandekerkhove, Alex Varga and Ben Krett
  * @version 1.1
  * @since 1.0

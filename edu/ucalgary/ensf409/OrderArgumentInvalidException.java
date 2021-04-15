@@ -1,6 +1,7 @@
 package edu.ucalgary.ensf409;
 /**
- * @ ENSF409 FINAL PROJECT GROUP 40
+ * @ENSF409 FINAL PROJECT GROUP 40
+ * @team members: Alex Varga, Ben Krett, Domninic Vanderkerkhove, and Kenny Jeon
  * @author: Alex Varga 
  * @version 1.1
  * @since 1.0

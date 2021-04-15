@@ -7,7 +7,8 @@ import java.util.concurrent.CountDownLatch;
 import javax.imageio.ImageIO;
 import java.io.*;
 /**
- * @ ENSF409 FINAL PROJECT GROUP 40
+ * @ENSF409 FINAL PROJECT GROUP 40
+ * @team members: Alex Varga, Ben Krett, Domninic Vanderkerkhove, and Kenny Jeon
  * @authors: Kenny Jeon, Alex Varga and Ben Krett
  * @version 1.3
  * @since 1.0
@@ -40,16 +41,16 @@ public CountDownLatch loginSignal = new CountDownLatch(1);
 
 Methods:
     -public static void main(String[] args) throws InterruptedException 
-        * Accept a user-input argument which specifies a user input for 1) furniture category, 2) its type,
-        * and 3) the number of items requested.
-        * The argument should be in order stated above as three strings.
-        * EXAMPLE INPUTs:
-        * mesh chair, 1
-        * executive chair, 2
-        * Therefore, the category followed by a space then its type followed by a comma then a space and 
-        * finally the requested amount.
-        * If no argument is specified, it throws a custom exception, 
-        * OrderArugmentNotProvidedException. Additional arguments are ignored.
+        * Accept a user-input argument through GUI which specifies a user input for 1) furniture category, 
+        * 2) its type, and 3) the number of items requested.
+        INSTRUCTIONS TO RUN:
+        1) access correct file path and run:
+            - javac -cp .;lib\mysql-connector-java-8.0.23.jar edu/ucalgary/ensf409/Input.java
+        2) run the program
+            - java -cp .;lib\mysql-connector-java-8.0.23.jar edu.ucalgary.ensf409.Input
+        3) follow the GUI and input the correct order.
+        4) exit program when done
+
     -public Input()
     -public void actionPerformed(ActionEvent e)
     -public String getInput()
@@ -102,6 +103,7 @@ public class Input implements ActionListener{
         frame.add(l); //Adds Label l to GUI
         frame.add(exit); //Adds button exit to GUI
         
+        /* Kinda Broken
         //Enter feature
         frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"click button");
         frame.getRootPane().getActionMap().put("click button", new AbstractAction(){
@@ -111,7 +113,7 @@ public class Input implements ActionListener{
             //     counter = 5;
             // }
             }
-        });
+        }); */
 
 
         /*Useless feature as is, can be used potentially */

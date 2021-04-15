@@ -2,7 +2,8 @@ package edu.ucalgary.ensf409;
 import java.sql.*;
 import java.util.*;
 /**
- * @ ENSF409 FINAL PROJECT GROUP 40
+ * @ENSF409 FINAL PROJECT GROUP 40
+ * @team members: Alex Varga, Ben Krett, Domninic Vanderkerkhove, and Kenny Jeon
  * @authors: Alex Varga and Ben Krett
  * @version 1.3
  * @since 1.0
@@ -61,10 +62,8 @@ public class Inventory {
      */
     public Inventory(){
     this.DBURL = "jdbc:mysql://localhost/inventory";
-    this.USERNAME = "alexcode";
-    this.PASSWORD = "glorycode";
-    // this.USERNAME = "ben";
-    // this.PASSWORD = "bbbb";
+    this.USERNAME = "scm";
+    this.PASSWORD = "ensf409";
     }
 
     /**

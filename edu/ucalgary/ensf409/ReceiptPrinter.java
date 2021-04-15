@@ -5,7 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * @ ENSF409 FINAL PROJECT GROUP 40
+ * @ENSF409 FINAL PROJECT GROUP 40
+ * @team members: Alex Varga, Ben Krett, Domninic Vanderkerkhove, and Kenny Jeon
  * @author: Dominic Vandekerkhove
  * @version 1.2
  * @since 1.0

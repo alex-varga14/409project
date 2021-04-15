@@ -4,7 +4,8 @@ import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 /**
- * @ ENSF409 FINAL PROJECT GROUP 40
+ * @ENSF409 FINAL PROJECT GROUP 40
+ * @team members: Alex Varga, Ben Krett, Domninic Vanderkerkhove, and Kenny Jeon
  * @author: Ben Krett
  * @version 1.0
  * @since 1.0
